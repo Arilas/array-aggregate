@@ -1,1 +1,141 @@
-# array-aggregate
+# array-aggregate - Mongo-like querying and filtration
+
+[![Build Status](https://travis-ci.org/Arilas/array-aggregate.svg?branch=master)](https://travis-ci.org/Arilas/array-aggregate)
+[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
+
+
+## Installation
+
+```
+yarn add array-aggregate
+```
+
+## Usage
+
+```js
+import { makeQueryFilter } from 'array-aggregate'
+
+const filterFn = makeQueryFilter({
+  tags: 'bar',
+  'history.creator': 1 // User Id
+})
+
+console.log(filterFn.match({
+  tags: ['foo', 'bar', 'etc'],
+  history: [
+    {
+      creator: 0
+    },
+    {
+      creator: 1
+    }
+  ]
+})) // true
+
+console.log(filterFn.match({
+  tags: ['foo', 'etc'],
+  history: [
+    {
+      creator: 0
+    },
+    {
+      creator: 1
+    }
+  ]
+})) // false
+
+console.log(filterFn.match({
+  tags: ['foo', 'bar', 'etc'],
+  history: [
+    {
+      creator: 0
+    }
+  ]
+})) // false
+```
+
+## Built-in operators
+
+### $eq
+
+Check that value is equal to some in query. Work with string, number, Date, boolean
+
+### $gt
+
+Check that value is greater than some in query. Work with number, Date
+
+### $gte
+
+Check that value is greater than or equal some in query. Work with number, Date
+
+### $lt
+
+Check that value is less than some in query. Work with number, Date
+
+### $lte
+
+Check that value is less than or equal some in query. Work with number, Date
+
+## Built-in logical Operators
+
+### $and
+
+Check that all matches are true
+
+### $or
+
+Check that at least one matches are true
+
+### $nor
+
+Check that all matches are false
+
+### $not
+
+Negotiate inner condition result
+
+## Built-in element Operators
+
+### $exists
+
+If it's `true` we will check that needed field exists in object, if it's `false` we will check that needed field is not inside object
+
+## Big query example
+
+```js
+import { makeQueryFilter } from 'array-aggregate'
+
+const secondQuery = makeQueryFilter({
+  foo: {
+    $eq: 'bar',
+    $exists: true
+  },
+  createdAt,
+  ololo: {
+    a: {
+      $exists: false
+    }
+  },
+  a: {
+    b: {
+      c: {
+        $lte: 1
+      }
+    }
+  },
+  'a[0].b.c': { // We can use path for accesing fields with index selection if it's needed
+    $gte: 1
+  }
+})
+
+console.log(secondQuery.match({
+  foo: ['bar', 'test'],
+  createdAt,
+  a: [{
+    b: [{
+      c: 1
+    }]
+  }]
+})) // true
+
+```

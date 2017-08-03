@@ -1,0 +1,58 @@
+{
+  "name": "array-aggregate",
+  "version": "0.0.1",
+  "description": "Mongo-like aggregate for arrays",
+  "main": "lib/index.js",
+  "scripts": {
+    "dist": "babel -d lib/ src/",
+    "prepublish": "npm run dist",
+    "test": "node scripts/test.js --env=jsdom"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arilas/array-aggregate.git"
+  },
+  "keywords": [
+    "aggregate",
+    "array",
+    "mongo"
+  ],
+  "author": "Alex Grand <alex@granted.name>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Arilas/array-aggregate/issues"
+  },
+  "homepage": "https://github.com/Arilas/array-aggregate#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "eslint": "^4.3.0",
+    "eslint-plugin-flowtype": "^2.35.0",
+    "jest": "^20.0.4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/scripts/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    }
+  }
+}
