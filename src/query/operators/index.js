@@ -4,7 +4,7 @@ import { gte } from './gte'
 import { lt } from './lt'
 import { lte } from './lte'
 import { ne } from './ne'
-import { in as inFn } from './in'
+import { inFn } from './in'
 import { nin } from './nin'
 
 export default {

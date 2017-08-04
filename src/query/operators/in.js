@@ -1,5 +1,5 @@
 
-export function in(rule) {
+export function inFn(rule) {
   return value => {
     if (Array.isArray(value)) {
       return value.some(item => rule.indexOf(item) !== -1)
