@@ -15,5 +15,5 @@ export default {
   '$lte': lte,
   '$ne': ne,
   '$in': inFn,
-  '$nin': $nin
+  '$nin': nin
 }
