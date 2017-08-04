@@ -58,7 +58,7 @@ console.log(filterFn.match({
 
 ### $eq
 
-Check that value is equal to some in query. Work with string, number, Date, boolean
+Check that value is equal to some in query. Work with array, string, number, Date, boolean
 
 ### $gt
 
@@ -75,6 +75,18 @@ Check that value is less than some in query. Work with number, Date
 ### $lte
 
 Check that value is less than or equal some in query. Work with number, Date
+
+### $ne
+
+Check that value is not equal some in query. Work with array, string, number, Date, boolean
+
+### $in
+
+Check that value is a member of some in query. Work with array, string, number
+
+### $nin
+
+Check that value is not a member of some in query. Work with array, string, number
 
 ## Built-in logical Operators
 
