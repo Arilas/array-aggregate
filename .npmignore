@@ -1,0 +1,6 @@
+scripts
+src
+node_modules
+.git
+.gitignore
+.vscode
