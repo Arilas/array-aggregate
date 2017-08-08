@@ -112,6 +112,20 @@ Negotiate inner condition result
 
 If it's `true` we will check that needed field exists in object, if it's `false` we will check that needed field is not inside object
 
+## Array Operators
+
+## $all
+
+Check that all elements from rule are present in value.
+
+## $size
+
+Check that array or string have needed length
+
+## $elemMatch
+
+Apply some rule to array elements
+
 ## Big query example
 
 ```js

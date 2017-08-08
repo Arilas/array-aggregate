@@ -5,6 +5,17 @@ const simpleQuery = {
   bar: {
     $exists: true,
     $ne: 'bar'
+  },
+  test: {
+    $in: ['a', 'b', 'c']
+  },
+  some: {
+    $elemMatch: {
+      a: 'foo',
+      b: {
+        $in: ['aaaa']
+      }
+    }
   }
 }
 
@@ -26,6 +37,27 @@ const formattedQuery = {
           }
         ]
       }
+    },
+    {
+      "test": {
+        "$in": [
+          "a", "b", "c"
+        ]
+      }
+    },
+    {
+      "$and": [
+        {
+          "some.a": {
+            "$eq": "foo"
+          }
+        },
+        {
+          "some.b": {
+            "$in": ["aaaa"]
+          }
+        }
+      ]
     }
   ]
 }

@@ -8,21 +8,23 @@ function normalizePart(target, key) {
       }
     }
   } else if (Array.isArray(target[key])) {
-    target[key].forEach((item, index) => {
-      const keys = Object.keys(item)
-      let newTarget = item
-      if (keys.length != 1) {
-        newTarget = {
-          $and: keys.map(operator => ({
-            [operator]: item[operator]
-          }))
+    if (key !== '$in') {
+      target[key].forEach((item, index) => {
+        const keys = Object.keys(item)
+        let newTarget = item
+        if (keys.length != 1) {
+          newTarget = {
+            $and: keys.map(operator => ({
+              [operator]: item[operator]
+            }))
+          }
+          target[key][index] = newTarget
         }
-        target[key][index] = newTarget
-      }
-      for (const newKey of keys) {
-        normalizePart(newTarget, newKey)
-      }
-    })
+        for (const newKey of keys) {
+          normalizePart(newTarget, newKey)
+        }
+      })
+    }
   } else {
     const keys = Object.keys(target[key])
     let newTarget = target[key]
@@ -35,7 +37,21 @@ function normalizePart(target, key) {
       target[key] = newTarget
     } else {
       for (const newKey of keys) {
-        normalizePart(newTarget, newKey)
+        if (newKey === '$elemMatch') {
+          const elemKeys = Object.keys(newTarget[newKey])
+
+          target.$and = elemKeys.map(elemKey => ({
+            [key + '.' + elemKey]: newTarget[newKey][elemKey]
+          }))
+          normalizePart(target, '$and')
+
+          // for (const elemKey of elemKeys) {
+          //   parts.forEach(part => normalizePart(target.$and, part))
+          // }
+          delete target[key]
+        } else {
+          normalizePart(newTarget, newKey)
+        }
       }
     }
   }

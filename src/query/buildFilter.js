@@ -4,6 +4,7 @@ import { fieldSelector } from './fieldSelector'
 import logical from './logical'
 import operators from './operators'
 import element from './element'
+import array from './array'
 
 export function buildFilter(query, key) {
   const [operand, other] = Object.keys(query)
@@ -28,4 +29,8 @@ export function buildFilter(query, key) {
   if (element.hasOwnProperty(operand)) {
     return createMatcher(element[operand](part), fieldSelector(key))
   }
+  if (array.hasOwnProperty(operand)) {
+    return createMatcher(array[operand](part), fieldSelector(key))
+  }
+
 }
