@@ -8,7 +8,7 @@ function normalizePart(target, key) {
       }
     }
   } else if (Array.isArray(target[key])) {
-    if (key !== '$in') {
+    if (key !== '$in' && key !== '$all') {
       target[key].forEach((item, index) => {
         const keys = Object.keys(item)
         let newTarget = item
