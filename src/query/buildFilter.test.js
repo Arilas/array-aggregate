@@ -67,3 +67,19 @@ it('should work with simple schema', () => {
     }]
   })).toBeTruthy()
 })
+
+it('should work with dates', () => {
+  console.log(normalizeQuery({
+    createdAt: {
+      $gte: new Date('2017-01-01')
+    }
+  }).$and[0])
+  const filterFn = buildFilter(normalizeQuery({
+    createdAt: {
+      $gte: new Date('2017-01-01')
+    }
+  }))
+  expect(filterFn.match({
+    createdAt: '2017-02-01T21:00:00Z'
+  })).toBeTruthy()
+})

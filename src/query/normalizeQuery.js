@@ -1,7 +1,8 @@
 import logical from './logical'
+import operators from './operators'
 
 function normalizePart(target, key) {
-  if (typeof target[key] !== 'object') {
+  if (typeof target[key] !== 'object' || target[key] instanceof Date) {
     if (key.indexOf('$') === -1 && key !== '$not') {
       target[key] = {
         $eq: target[key]
