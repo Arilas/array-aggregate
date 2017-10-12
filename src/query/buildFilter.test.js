@@ -69,11 +69,6 @@ it('should work with simple schema', () => {
 })
 
 it('should work with dates', () => {
-  console.log(normalizeQuery({
-    createdAt: {
-      $gte: new Date('2017-01-01')
-    }
-  }).$and[0])
   const filterFn = buildFilter(normalizeQuery({
     createdAt: {
       $gte: new Date('2017-01-01')

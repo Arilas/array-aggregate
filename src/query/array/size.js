@@ -1,7 +1,7 @@
 /** @flow */
 
-export function size(rule: Number) {
+export function size(rule: number) {
   return value => {
-    return value.length === rule
+    return value && (value.length === rule || value.size === rule)
   }
 }
