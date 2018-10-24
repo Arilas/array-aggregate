@@ -1,9 +1,8 @@
 import { buildFilter } from './buildFilter'
-import { normalizeQuery } from './normalizeQuery'
 
 const createdAt = new Date()
 
-const secondQuery = normalizeQuery({
+const secondQuery = {
   foo: {
     $eq: 'bar',
     $exists: true,
@@ -24,7 +23,7 @@ const secondQuery = normalizeQuery({
   'a.b.c': {
     $gte: 1,
   },
-})
+}
 
 it('should work with simple schema', () => {
   const filterFn = buildFilter(secondQuery)
@@ -46,13 +45,11 @@ it('should work with simple schema', () => {
 })
 
 it('should work with dates', () => {
-  const filterFn = buildFilter(
-    normalizeQuery({
-      createdAt: {
-        $gte: new Date('2017-01-01'),
-      },
-    }),
-  )
+  const filterFn = buildFilter({
+    createdAt: {
+      $gte: new Date('2017-01-01'),
+    },
+  })
   expect(
     filterFn.match({
       createdAt: '2017-02-01T21:00:00Z',

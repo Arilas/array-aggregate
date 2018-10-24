@@ -1,7 +1,6 @@
-
 export function fieldSelector(fieldDescription) {
-  const parts = fieldDescription.split('.')
-  return function* (ctx) {
+  const parts = fieldDescription ? fieldDescription.split('.') : []
+  return function*(ctx) {
     function* goDeep(current, [part, ...parts]) {
       if (!part) {
         yield current

@@ -22,7 +22,6 @@ it('Equivalent to $and Operation', () => {
 it('Nested Array', () => {
   const query1 = makeQueryFilter({ tags: { $all: [['ssl', 'security']] } })
   const query2 = makeQueryFilter({ $and: [{ tags: ['ssl', 'security'] }] })
-
   const query3 = makeQueryFilter({ tags: ['ssl', 'security'] })
   const toPass = [{ tags: [['ssl', 'security'], ['ssl', 'sdfs']] }]
   const toFail = [{}, { tags: ['ssl'] }, { tags: 'ssl' }, { tags: 1 }]
@@ -36,6 +35,12 @@ it('Nested Array', () => {
       tags: [['ssl', 'sfs'], ['asdf', 'security']],
     }),
   ).toBeFalsy()
+  const nestedCheck = {
+    tags: ['ssl', 'security'],
+  }
+  expect(query1.match(nestedCheck)).toBeFalsy()
+  expect(query2.match(nestedCheck)).toBeTruthy()
+  expect(query3.match(nestedCheck)).toBeTruthy()
   for (const fail of toFail) {
     expect(query1.match(fail)).toBeFalsy()
     expect(query2.match(fail)).toBeFalsy()
@@ -113,18 +118,15 @@ it('Use $all to Match Values', () => {
   })
 })
 
-it.skip('Use $all with $elemMatch', () => {
-  const query = makeQueryFilter(
-    {
-      qty: {
-        $all: [
-          { $elemMatch: { size: 'M', num: { $gt: 50 } } },
-          { $elemMatch: { num: 100, color: 'green' } },
-        ],
-      },
+it('Use $all with $elemMatch', () => {
+  const query = makeQueryFilter({
+    qty: {
+      $all: [
+        { $elemMatch: { size: 'M', num: { $gt: 50 } } },
+        { $elemMatch: { num: 100, color: 'green' } },
+      ],
     },
-    true,
-  )
+  })
   const result = inventory.filter(query.match)
   expect(result).toHaveLength(2)
 })
@@ -132,6 +134,7 @@ it.skip('Use $all with $elemMatch', () => {
 it('$all non-array field', () => {
   const query1 = makeQueryFilter({ 'qty.num': { $all: [50] } })
   const query2 = makeQueryFilter({ 'qty.num': 50 })
+
   const result1 = inventory.filter(query1.match)
   const result2 = inventory.filter(query2.match)
   expect(result1).toHaveLength(1)

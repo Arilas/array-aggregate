@@ -1,4 +1,3 @@
-
 export function gt(rule) {
   return value => {
     if (rule instanceof Date) {

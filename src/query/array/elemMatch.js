@@ -1,5 +1,8 @@
 /** @flow */
 
-export function elemMatch(rule: Object) {
-  throw new Error('Please normalize Query because $elemMatch must be replaced to field path')
+export function elemMatch(matcher) {
+  return value =>
+    Array.isArray(value)
+      ? value.some(val => matcher.match(val))
+      : matcher.match(value)
 }

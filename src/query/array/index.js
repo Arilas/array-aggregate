@@ -3,7 +3,7 @@ import { size } from './size'
 import { elemMatch } from './elemMatch'
 
 export default {
-  '$all': all,
-  '$size': size,
-  '$elemMatch': elemMatch
+  $all: all,
+  $size: size,
+  $elemMatch: elemMatch,
 }

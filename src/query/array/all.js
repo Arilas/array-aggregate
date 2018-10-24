@@ -1,11 +1,10 @@
 /** @flow */
-import { eq } from '../operators/eq'
 
-export function all(rule: Array<*>) {
-  const rules = rule.map(item => (Array.isArray(item) ? all(item) : eq(item)))
+export function all(matchers) {
   return value =>
-    rules.every(
-      rule =>
-        Array.isArray(value) ? value.some(val => rule(val)) : rule(value),
-    )
+    Array.isArray(value)
+      ? matchers.every(matcher => value.some(matcher.match))
+      : value != undefined
+        ? matchers.every(matcher => matcher.match(value))
+        : false
 }

@@ -1,4 +1,8 @@
 export function eq(rule) {
+  if (Array.isArray(rule)) {
+    const rules = rule.map(eq)
+    return value => rules.every(rule => rule(value))
+  }
   return value => {
     if (Array.isArray(value)) {
       return value.some(eq(rule))

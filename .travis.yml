@@ -1,14 +1,12 @@
 language: node_js
 node_js:
-  - 6.0
-  - 6
-  - 7.0
-  - 7
-  - 8.0
-  - 8.2
+  - "6.14"
+  - "8.12"
+  - "10.3"
 install:
-  - npm install -g codecov
-  - npm install
+  - npm i -g yarn
+  - yarn global add codecov
+  - yarn install
 script:
   - npm test --coverage
 after_success:
