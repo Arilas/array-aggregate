@@ -13,7 +13,7 @@ export function buildFilter(query, key) {
     console.log('Not normalized query')
   }
   if (operand.indexOf('$') !== 0) {
-    return buildFilter(part, key ? `${key}.${operand}`: operand)
+    return buildFilter(part, key ? `${key}.${operand}` : operand)
   }
   if (logical.hasOwnProperty(operand)) {
     if (Array.isArray(part)) {
@@ -32,5 +32,4 @@ export function buildFilter(query, key) {
   if (array.hasOwnProperty(operand)) {
     return createMatcher(array[operand](part), fieldSelector(key))
   }
-
 }

@@ -2,7 +2,10 @@
 import { eq } from '../operators/eq'
 
 export function all(rule: Array<*>) {
-  return value => {
-    return rule.every(item => value.some(val => eq(item)(val)))
-  }
+  const rules = rule.map(item => (Array.isArray(item) ? all(item) : eq(item)))
+  return value =>
+    rules.every(
+      rule =>
+        Array.isArray(value) ? value.some(val => rule(val)) : rule(value),
+    )
 }

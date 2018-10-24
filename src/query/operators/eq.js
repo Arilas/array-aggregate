@@ -1,4 +1,3 @@
-
 export function eq(rule) {
   return value => {
     if (Array.isArray(value)) {
