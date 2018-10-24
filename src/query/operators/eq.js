@@ -10,6 +10,7 @@ export function eq(rule) {
       const flatten = flattenValue(value)
       return flatten.some(
         part =>
+          part.length == rule.length &&
           rule
             .map(rulePart => part.findIndex(val => eq(rulePart)(val)))
             .reduce(

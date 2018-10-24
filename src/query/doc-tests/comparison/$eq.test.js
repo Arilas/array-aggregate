@@ -76,7 +76,7 @@ it('Array Element Equals a Value', async () => {
   })
 })
 
-it.skip('Equals an Array Value', async () => {
+it('Equals an Array Value', async () => {
   const result1 = await inventory.find({ tags: { $eq: ['A', 'B'] } })
   const result2 = await inventory.find({ tags: ['A', 'B'] })
   expect(result1).toHaveLength(2)
