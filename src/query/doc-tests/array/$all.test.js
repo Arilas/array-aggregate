@@ -23,8 +23,19 @@ it('Nested Array', () => {
   const query1 = makeQueryFilter({ tags: { $all: [['ssl', 'security']] } })
   const query2 = makeQueryFilter({ $and: [{ tags: ['ssl', 'security'] }] })
   const query3 = makeQueryFilter({ tags: ['ssl', 'security'] })
-  const toPass = [{ tags: [['ssl', 'security'], ['ssl', 'sdfs']] }]
-  const toFail = [{}, { tags: ['ssl'] }, { tags: 'ssl' }, { tags: 1 }]
+  const toPass = [
+    { tags: [['ssl', 'security'], ['ssl', 'sdfs']] },
+    { tags: [['ssl', 'security'], 'sdd'] },
+  ]
+  const toFail = [
+    {},
+    { tags: ['ssl'] },
+    { tags: 'ssl' },
+    { tags: 1 },
+    {
+      tags: [['ssl'], 'security'],
+    },
+  ]
   for (const objPass of toPass) {
     expect(query1.match(objPass)).toBeTruthy()
     expect(query2.match(objPass)).toBeTruthy()

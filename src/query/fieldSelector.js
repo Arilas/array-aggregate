@@ -4,6 +4,13 @@ export function fieldSelector(fieldDescription) {
     function* goDeep(current, [part, ...parts]) {
       if (!part) {
         yield current
+        // if (Array.isArray(current)) {
+        //   for (const item of current) {
+        //     if (Array.isArray(item)) {
+        //       yield* goDeep(item, [])
+        //     }
+        //   }
+        // }
       } else if (part.indexOf('[') !== -1) {
         //TODO: Implement multiple arrays
         const [key, index] = part.replace(']', '').split('[')

@@ -1,7 +1,5 @@
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
-const ObjectId = val => val
-
 it('Element Match', () => {
   const scores = [
     { _id: 1, results: [82, 85, 88] },

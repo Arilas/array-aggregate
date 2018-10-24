@@ -1,11 +1,28 @@
+const flattenValue = value =>
+  []
+    .concat([value.filter(item => !Array.isArray(item))])
+    .concat(...value.filter(item => Array.isArray(item)).map(flattenValue))
+
 export function eq(rule) {
   if (Array.isArray(rule)) {
-    const rules = rule.map(eq)
-    return value => rules.every(rule => rule(value))
+    return value => {
+      if (!value || !Array.isArray(value)) return false
+      const flatten = flattenValue(value)
+      return flatten.some(
+        part =>
+          rule
+            .map(rulePart => part.findIndex(val => eq(rulePart)(val)))
+            .reduce(
+              (target, index) =>
+                index !== -1 && target !== -1 && index > target ? index : -1,
+              -2,
+            ) > -1,
+      )
+    }
   }
   return value => {
     if (Array.isArray(value)) {
-      return value.some(eq(rule))
+      return value.some(val => val === rule)
     } else if (rule instanceof Date) {
       if (value instanceof Date) {
         return value * 1 === rule * 1
