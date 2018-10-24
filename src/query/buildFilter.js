@@ -7,7 +7,7 @@ import element from './element'
 import array from './array'
 
 const isSimpleValue = value =>
-  ['number', 'string', 'undefined'].includes(typeof value) ||
+  ['number', 'string', 'undefined', 'boolean'].includes(typeof value) ||
   value == null ||
   value instanceof Date
 const isOperand = key => key.indexOf('$') === 0
