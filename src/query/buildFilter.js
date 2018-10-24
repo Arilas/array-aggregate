@@ -9,7 +9,8 @@ import array from './array'
 const isSimpleValue = value =>
   ['number', 'string', 'undefined', 'boolean'].includes(typeof value) ||
   value == null ||
-  value instanceof Date
+  value instanceof Date ||
+  value instanceof RegExp
 const isOperand = key => key.indexOf('$') === 0
 const composeKey = (key, operand) => (key ? `${key}.${operand}` : operand)
 
@@ -53,10 +54,20 @@ export function buildFilter(query, key, schema = {}) {
         return matcher
       } else {
         schema[operand] = {}
-        const matcher = createMatcher(
-          logical[operand](buildFilter(part, undefined, schema[operand])),
-          fieldSelector(key),
-        )
+        let matcher
+        if (isSimpleValue(part)) {
+          matcher = createMatcher(
+            logical[operand](
+              createMatcher(operators.$eq(part), fieldSelector(undefined)),
+            ),
+            fieldSelector(key),
+          )
+        } else {
+          matcher = createMatcher(
+            logical[operand](buildFilter(part, undefined, schema[operand])),
+            fieldSelector(key),
+          )
+        }
         schema[operand].$_SchemaKey = key
         schema[operand].$_Matcher = matcher
         return matcher
