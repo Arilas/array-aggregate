@@ -1,6 +1,9 @@
 /** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function elemMatch(matcher) {
+type ElemMatch<T> = (value: T) => boolean
+
+export function elemMatch<T>(matcher: Matcher<T>): ElemMatch<T> {
   return value =>
     Array.isArray(value)
       ? value.some(val => matcher.match(val))

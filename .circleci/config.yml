@@ -1,0 +1,110 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+shared: &shared
+  working_directory: ~/repo
+
+  steps:
+    - checkout
+
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+    - run: yarn install
+    - run: yarn global add codecov
+
+    - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+
+    # run tests!
+    - run: yarn test
+    - run: yarn lint
+    - run: yarn flow check
+    - run: $(yarn global bin)/codecov
+
+jobs:
+  node_10:
+    <<: *shared
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10
+
+  node_8:
+    <<: *shared
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8
+
+  node_6:
+    <<: *shared
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:6
+
+  version-1:
+    docker:
+    - image: circleci/node:10
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+    - run:
+        command: yarn install
+    - run:
+        command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+    - run:
+        command: npm publish
+  version-2:
+    docker:
+    - image: circleci/node:10
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+    - run:
+        command: yarn install
+    - run:
+        command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+    - run:
+        command: npm publish --tag next
+workflows:
+  version: 2
+  build:
+    jobs:
+      - node_6
+      - node_8
+      - node_10
+      - version-1:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v([0-9]+)\.([0-9]+)\.([0-9]+)$/
+          requires:
+          - node_6
+          - node_8
+          - node_10
+      - version-2:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v([0-9]+)\.([0-9]+)\.([0-9]+)-next\.([0-9]+)$/
+          requires:
+          - node_6
+          - node_8
+          - node_10

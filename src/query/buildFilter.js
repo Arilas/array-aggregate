@@ -1,3 +1,4 @@
+/** @flow */
 import { createMatcher } from './createMatcher'
 import { fieldSelector } from './fieldSelector'
 
@@ -14,7 +15,11 @@ const isSimpleValue = value =>
 const isOperand = key => key.indexOf('$') === 0
 const composeKey = (key, operand) => (key ? `${key}.${operand}` : operand)
 
-export function buildFilter(query, key, schema = {}) {
+export function buildFilter(
+  query: { [key: string]: any },
+  key: ?string,
+  schema: Object = {},
+) {
   const matchers = Object.keys(query).map(operand => {
     const part = query[operand]
     if (!isOperand(operand)) {
@@ -111,6 +116,8 @@ export function buildFilter(query, key, schema = {}) {
           lineSchema.$eq = {
             $_Val: item,
             $_Field: key,
+            $_SchemaKey: undefined,
+            $_Matcher: undefined,
           }
           const matcher = createMatcher(
             operators.$eq(item),
@@ -132,10 +139,10 @@ export function buildFilter(query, key, schema = {}) {
         $_Matcher: matcher,
       })
       return matcher
+    } else {
+      throw new Error('Wrong query')
     }
-    throw JSON.stringify(operand, query, key)
   })
-  // .map(matcher => matcher.mach)
   const matcher = createMatcher(
     ctx => matchers.every(matcher => matcher.match(ctx)),
     fieldSelector(undefined),

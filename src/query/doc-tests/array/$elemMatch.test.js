@@ -1,3 +1,4 @@
+/** @flow */
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
 it('Element Match', () => {

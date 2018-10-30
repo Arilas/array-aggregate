@@ -8,12 +8,12 @@ import { inFn } from './in'
 import { nin } from './nin'
 
 export default {
-  '$eq': eq,
-  '$gt': gt,
-  '$gte': gte,
-  '$lt': lt,
-  '$lte': lte,
-  '$ne': ne,
-  '$in': inFn,
-  '$nin': nin
+  $eq: eq,
+  $gt: gt,
+  $gte: gte,
+  $lt: lt,
+  $lte: lte,
+  $ne: ne,
+  $in: inFn,
+  $nin: nin,
 }

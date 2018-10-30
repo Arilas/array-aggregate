@@ -1,3 +1,4 @@
+/** @flow */
 import { buildFilter } from './buildFilter'
 
 const createdAt = new Date()

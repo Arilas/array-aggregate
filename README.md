@@ -1,7 +1,6 @@
 # array-aggregate - Mongo-like querying and filtration
 
-[![Build Status](https://travis-ci.org/Arilas/array-aggregate.svg?branch=master)](https://travis-ci.org/Arilas/array-aggregate)
-[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
+[![CircleCI](https://circleci.com/gh/Arilas/array-aggregate.svg?style=svg)](https://circleci.com/gh/Arilas/array-aggregate)[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
 
 
 ## Installation

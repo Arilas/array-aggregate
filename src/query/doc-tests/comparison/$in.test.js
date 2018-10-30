@@ -1,3 +1,4 @@
+/** @flow */
 import { wrapCollection } from '../../../wrapCollection'
 
 const inventory = wrapCollection([

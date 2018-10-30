@@ -1,10 +1,11 @@
+/** @flow */
 import { fieldSelector } from './fieldSelector'
 
 const simpleState = {
   foo: 'bar',
   bar: {
     foo2: 1,
-    bar2: 2
+    bar2: 2,
   },
   a: {
     e: 1,
@@ -13,22 +14,22 @@ const simpleState = {
       c: {
         e: 3,
         d: {
-          e: 4
-        }
-      }
-    }
+          e: 4,
+        },
+      },
+    },
   },
   b: [
     {
-      e: 1
+      e: 1,
     },
     {
-      e: 2
+      e: 2,
     },
     {
-      e: 3
-    }
-  ]
+      e: 3,
+    },
+  ],
 }
 
 it('should select value from context by simple name', () => {
@@ -77,7 +78,6 @@ it('should select value from context by path with object value inside array', ()
     expect(e).toBe(count)
   }
   expect(count).toBe(3)
-
 
   const resolver2 = fieldSelector('b')
   let count2 = 0

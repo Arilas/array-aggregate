@@ -9,7 +9,8 @@
     "Uint32Array": true
   },
   "plugins": ["flowtype", "prettier"],
-  "extends": ["eslint:recommended"],
+  "extends": ["eslint:recommended",
+    "plugin:flowtype/recommended"],
   "rules": {
     "prettier/prettier": "error",
     "quotes": [

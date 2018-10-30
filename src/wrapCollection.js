@@ -1,6 +1,15 @@
+/** @flow */
 import { buildFilter } from './query/buildFilter'
 
-export function wrapCollection(collection) {
+export type FakeCollection<T: { _id: string | number }> = {
+  _get(id: $ElementType<T, '_id'>): T,
+  find(query: Object): Promise<Array<T>>,
+  schema(query: Object): Promise<?Object>,
+}
+
+export function wrapCollection<T: { _id: string | number }>(
+  collection: Array<T>,
+): FakeCollection<T> {
   const map = collection.reduce(
     (target, item) => Object.assign(target, { [item._id]: item }),
     {},

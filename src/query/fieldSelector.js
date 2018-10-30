@@ -1,4 +1,12 @@
-export function fieldSelector(fieldDescription) {
+/** @flow */
+
+export type FieldSelector = Generator<any, void, void>
+
+export type ContextType = { [key: string]: any }
+
+export function fieldSelector(
+  fieldDescription: ?string,
+): (ctx: ContextType) => FieldSelector {
   const parts = fieldDescription ? fieldDescription.split('.') : []
   return function*(ctx) {
     function* goDeep(current, [part, ...parts]) {
