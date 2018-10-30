@@ -1,5 +1,8 @@
-import type { Matcher } from '../types'
+/** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function and(matchers: Array<Matcher>) {
+type Match<T> = (value: T) => boolean
+
+export function and<T>(matchers: Array<Matcher<T>>): Match<T> {
   return ctx => matchers.every(matcher => matcher.match(ctx))
 }

@@ -10,7 +10,6 @@ it('should work with simple matchinFng', () => {
   expect(matcher(['a', 'b', 'c'])).toBeTruthy()
   expect(matcher(['a', 'c'])).toBeTruthy()
   expect(matcher(['c'])).toBeFalsy()
-  
 })
 
 it('should work with dates', () => {

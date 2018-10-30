@@ -1,10 +1,24 @@
+/** @flow */
 
-export function fieldSelector(fieldDescription) {
-  const parts = fieldDescription.split('.')
-  return function* (ctx) {
+export type FieldSelector = Generator<any, void, void>
+
+export type ContextType = { [key: string]: any }
+
+export function fieldSelector(
+  fieldDescription: ?string,
+): (ctx: ContextType) => FieldSelector {
+  const parts = fieldDescription ? fieldDescription.split('.') : []
+  return function*(ctx) {
     function* goDeep(current, [part, ...parts]) {
       if (!part) {
         yield current
+        // if (Array.isArray(current)) {
+        //   for (const item of current) {
+        //     if (Array.isArray(item)) {
+        //       yield* goDeep(item, [])
+        //     }
+        //   }
+        // }
       } else if (part.indexOf('[') !== -1) {
         //TODO: Implement multiple arrays
         const [key, index] = part.replace(']', '').split('[')

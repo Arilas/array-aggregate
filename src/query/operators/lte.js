@@ -1,4 +1,3 @@
-
 export function lte(rule) {
   return value => {
     if (rule instanceof Date) {

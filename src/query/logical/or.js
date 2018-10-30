@@ -1,4 +1,8 @@
+/** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function or(matchers: Array<>) {
+type Match<T> = (value: T) => boolean
+
+export function or<T>(matchers: Array<Matcher<T>>): Match<T> {
   return ctx => matchers.some(matcher => matcher.match(ctx))
 }

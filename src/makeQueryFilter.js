@@ -1,6 +1,4 @@
+/** @flow */
 import { buildFilter } from './query/buildFilter'
-import { normalizeQuery } from './query/normalizeQuery'
 
-export function makeQueryFilter(query) {
-  return buildFilter(normalizeQuery(query))
-}
+export { buildFilter as makeQueryFilter }

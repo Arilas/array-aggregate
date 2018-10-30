@@ -1,5 +1,11 @@
 /** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function elemMatch(rule: Object) {
-  throw new Error('Please normalize Query because $elemMatch must be replaced to field path')
+type ElemMatch<T> = (value: T) => boolean
+
+export function elemMatch<T>(matcher: Matcher<T>): ElemMatch<T> {
+  return value =>
+    Array.isArray(value)
+      ? value.some(val => matcher.match(val))
+      : matcher.match(value)
 }

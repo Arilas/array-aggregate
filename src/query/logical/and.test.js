@@ -1,26 +1,37 @@
+/** @flow */
+import type { Matcher } from '../createMatcher'
 import { and } from './and'
 
-const matchers = [
+type Ctx = {
+  foo?: string,
+  bar?: string,
+}
+
+const matchers: Array<Matcher<Ctx>> = [
   {
-    match(ctx) {
+    match(ctx: Ctx) {
       return ctx.foo === 'bar'
-    }
+    },
   },
   {
-    match(ctx) {
+    match(ctx: Ctx) {
       return ctx.bar === 'foo'
-    }
-  }
+    },
+  },
 ]
 
 it('should match all conditions', () => {
   const matcher = and(matchers)
-  expect(matcher({
-    foo: 'bar',
-    bar: 'foo'
-  })).toBeTruthy()
-  expect(matcher({
-    foo: 'bar'
-  })).toBeFalsy()
+  expect(
+    matcher({
+      foo: 'bar',
+      bar: 'foo',
+    }),
+  ).toBeTruthy()
+  expect(
+    matcher({
+      foo: 'bar',
+    }),
+  ).toBeFalsy()
   expect(matcher({})).toBeFalsy()
 })

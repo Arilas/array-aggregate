@@ -1,4 +1,8 @@
+/** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function nor(matchers: Array<>) {
+type Match<T> = (value: T) => boolean
+
+export function nor<T>(matchers: Array<Matcher<T>>): Match<T> {
   return ctx => matchers.every(matcher => !matcher.match(ctx))
 }

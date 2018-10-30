@@ -4,8 +4,8 @@ import { nor } from './nor'
 import { or } from './or'
 
 export default {
-  '$and': and,
-  '$not': not,
-  '$nor': nor,
-  '$or': or
+  $and: and,
+  $not: not,
+  $nor: nor,
+  $or: or,
 }

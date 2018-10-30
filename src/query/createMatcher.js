@@ -1,14 +1,16 @@
+/** @flow */
 
-export function createLogicalMatcher(resolver) {
-  return {
-    match(ctx) {
-      return resolver(ctx)
-    }
-  }
-}
+export type Matcher<T> = {|
+  match<T: any>(ctx: T): boolean,
+  schema?: Object,
+|}
 
-export function createMatcher(resolver, fieldResolver) {
+type ExtractReturnType = <V>(Generator<V, *, *>) => V
 
+export function createMatcher<T>(
+  resolver: Function,
+  fieldResolver: $Call<ExtractReturnType, Generator<any, void, void>>,
+): Matcher<T> {
   return {
     match(ctx) {
       for (const field of fieldResolver(ctx)) {
@@ -18,6 +20,6 @@ export function createMatcher(resolver, fieldResolver) {
       }
 
       return false
-    }
+    },
   }
 }

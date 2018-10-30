@@ -1,12 +1,13 @@
 {
   "name": "array-aggregate",
-  "version": "0.1.7",
+  "version": "0.2.0-next.1",
   "description": "Mongo-like aggregate for arrays",
   "main": "lib/index.js",
   "scripts": {
     "dist": "babel -d lib/ src/",
-    "prepublish": "npm run dist",
-    "test": "node scripts/test.js --env=jsdom"
+    "prepublish": "in-publish && npm run dist || echo 'Bad mode'",
+    "lint": "eslint .",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,35 +25,38 @@
   },
   "homepage": "https://github.com/Arilas/array-aggregate#readme",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "eslint": "^4.3.0",
-    "eslint-plugin-flowtype": "^2.35.0",
-    "jest": "^20.0.4"
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-flowtype": "^3.1.4",
+    "eslint-plugin-prettier": "^3.0.0",
+    "flow-bin": "^0.84.0",
+    "flow-typed": "^2.5.1",
+    "in-publish": "^2.0.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.js"
     ],
+    "coverageDirectory": "./coverage/",
     "testPathIgnorePatterns": [
-      "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
+      "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]",
+      "(config|fixtures|utils)"
     ],
     "testEnvironment": "node",
-    "testURL": "http://localhost",
     "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/scripts/jest/fileTransform.js"
+      "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    }
+      "[/\\\\]node_modules[/\\\\].+\\.js$"
+    ]
   }
 }

@@ -1,4 +1,8 @@
+/** @flow */
+import type { Matcher } from '../createMatcher'
 
-export function not(matcher) {
+type Match<T> = (value: T) => boolean
+
+export function not<T>(matcher: Matcher<T>): Match<T> {
   return ctx => !matcher.match(ctx)
 }
