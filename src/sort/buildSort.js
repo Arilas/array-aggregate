@@ -48,7 +48,7 @@ export function buildSort(query: Query) {
       if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
         const value1 = obj1[key]
         const value2 = obj2[key]
-        if (value1 === value2) {
+        if (Object.is(value1, value2)) {
           continue
         } else {
           const type1 = detectType(value1, key)
@@ -67,6 +67,16 @@ export function buildSort(query: Query) {
             }
           } else {
             switch (type1) {
+              case 'null':
+                continue
+              case 'boolean':
+                if (value1 === value2) {
+                  continue
+                } else if (value1) {
+                  return greater
+                } else {
+                  return less
+                }
               case 'number':
               case 'date':
                 if (value1 * 1 > value2 * 1) {

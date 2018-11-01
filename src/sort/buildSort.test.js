@@ -23,10 +23,12 @@ const makeRandomItem = () => {
     name: randomName(),
     qty: Math.ceil(Math.random() * 1000),
     date: randomDate(),
+    bool: Math.random() >= 0.5,
     nullableNumber:
       Math.random() >= 0.5 ? Math.ceil(Math.random() * 1000) : null,
     nullableString: Math.random() >= 0.5 ? randomName() : null,
     nullableDate: Math.random() >= 0.5 ? randomDate() : null,
+    nullableBool: Math.random() >= 0.5 ? Math.random() >= 0.5 : null,
   }
 
   return data
@@ -50,7 +52,7 @@ describe('numbers', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('qty')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous).toBeLessThan(current)
+        expect(previous).toBeLessThanOrEqual(current)
       }
       return current
     })
@@ -63,7 +65,7 @@ describe('numbers', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('qty')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous).toBeGreaterThan(current)
+        expect(previous).toBeGreaterThanOrEqual(current)
       }
       return current
     })
@@ -77,7 +79,7 @@ describe('numbers', () => {
     expect(sorted[0].nullableNumber).toBeNull()
     sorted.map(mapValue('nullableNumber')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous).toBeLessThan(current)
+        expect(previous).toBeLessThanOrEqual(current)
       }
       return current
     })
@@ -92,7 +94,7 @@ describe('numbers', () => {
     expect(sorted[0].nullableNumber).not.toBeNull()
     sorted.map(mapValue('nullableNumber')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous).toBeGreaterThan(current)
+        expect(previous).toBeGreaterThanOrEqual(current)
       }
       return current
     })
@@ -162,7 +164,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('date')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThan(current * 1)
+        expect(previous * 1).toBeLessThanOrEqual(current * 1)
       }
       return current
     })
@@ -175,7 +177,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('date')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThan(current * 1)
+        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
       }
       return current
     })
@@ -188,7 +190,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableDate')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThan(current * 1)
+        expect(previous * 1).toBeLessThanOrEqual(current * 1)
       }
       return current
     })
@@ -201,7 +203,61 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableDate')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThan(current * 1)
+        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+      }
+      return current
+    })
+  })
+})
+
+describe('bool', () => {
+  test('sort ASC', () => {
+    const sort = buildSort({
+      bool: 1,
+    })
+    const sorted = data.slice().sort(sort)
+    sorted.map(mapValue('bool')).reduce((previous, current) => {
+      if (previous != null && current != null) {
+        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+      }
+      return current
+    })
+  })
+
+  test('sort DESC', () => {
+    const sort = buildSort({
+      bool: -1,
+    })
+    const sorted = data.slice().sort(sort)
+    sorted.map(mapValue('bool')).reduce((previous, current) => {
+      if (previous != null && current != null) {
+        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+      }
+      return current
+    })
+  })
+
+  test('sort nullable ASC', () => {
+    const sort = buildSort({
+      nullableBool: 1,
+    })
+    const sorted = data.slice().sort(sort)
+    sorted.map(mapValue('nullableBool')).reduce((previous, current) => {
+      if (previous != null && current != null) {
+        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+      }
+      return current
+    })
+  })
+
+  test('sort nullable DESC', () => {
+    const sort = buildSort({
+      nullableBool: -1,
+    })
+    const sorted = data.slice().sort(sort)
+    sorted.map(mapValue('nullableBool')).reduce((previous, current) => {
+      if (previous != null && current != null) {
+        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
       }
       return current
     })
