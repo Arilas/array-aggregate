@@ -36,18 +36,21 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10
+      - image: circleci/mongo:latest
 
   node_8:
     <<: *shared
     docker:
       # specify the version you desire here
       - image: circleci/node:8
+      - image: circleci/mongo:latest
 
   node_6:
     <<: *shared
     docker:
       # specify the version you desire here
       - image: circleci/node:6
+      - image: circleci/mongo:latest
 
   version-1:
     docker:

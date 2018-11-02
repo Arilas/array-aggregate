@@ -5,6 +5,7 @@ export type FakeCollection<T: { _id: string | number }> = {
   _get(id: $ElementType<T, '_id'>): T,
   find(query: Object): Promise<Array<T>>,
   schema(query: Object): Promise<?Object>,
+  drop(): Promise<any>,
 }
 
 export function wrapCollection<T: { _id: string | number }>(
@@ -23,6 +24,9 @@ export function wrapCollection<T: { _id: string | number }>(
     },
     schema(query) {
       return Promise.resolve(buildFilter(query).schema)
+    },
+    drop() {
+      return Promise.resolve()
     },
   }
 }

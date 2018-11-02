@@ -164,7 +164,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('date')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+        expect(Number(previous)).toBeLessThanOrEqual(Number(current))
       }
       return current
     })
@@ -177,7 +177,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('date')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+        expect(Number(previous)).toBeGreaterThanOrEqual(Number(current))
       }
       return current
     })
@@ -190,7 +190,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableDate')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+        expect(Number(previous)).toBeLessThanOrEqual(Number(current))
       }
       return current
     })
@@ -203,7 +203,7 @@ describe('date', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableDate')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+        expect(Number(previous)).toBeGreaterThanOrEqual(Number(current))
       }
       return current
     })
@@ -218,7 +218,7 @@ describe('bool', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('bool')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+        expect(Number(previous)).toBeLessThanOrEqual(Number(current))
       }
       return current
     })
@@ -231,7 +231,7 @@ describe('bool', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('bool')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+        expect(Number(previous)).toBeGreaterThanOrEqual(Number(current))
       }
       return current
     })
@@ -244,7 +244,7 @@ describe('bool', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableBool')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeLessThanOrEqual(current * 1)
+        expect(Number(previous)).toBeLessThanOrEqual(Number(current))
       }
       return current
     })
@@ -257,7 +257,7 @@ describe('bool', () => {
     const sorted = data.slice().sort(sort)
     sorted.map(mapValue('nullableBool')).reduce((previous, current) => {
       if (previous != null && current != null) {
-        expect(previous * 1).toBeGreaterThanOrEqual(current * 1)
+        expect(Number(previous)).toBeGreaterThanOrEqual(Number(current))
       }
       return current
     })
