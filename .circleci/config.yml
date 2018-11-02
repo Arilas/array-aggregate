@@ -25,7 +25,7 @@ shared: &shared
         key: v1-dependencies-{{ checksum "package.json" }}
 
     # run tests!
-    - run: yarn test
+    - run: yarn test --collectCoverage
     - run: yarn lint
     - run: yarn flow check
     - run: $(yarn global bin)/codecov
