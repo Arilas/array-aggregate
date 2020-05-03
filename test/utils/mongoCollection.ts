@@ -1,32 +1,32 @@
-/** @flow */
-import Monk, { Collection, Document } from 'monk'
-import faker from 'faker'
+/* eslint-disable import/no-extraneous-dependencies */
+import Monk, { ICollection } from 'monk'
+import { lorem } from 'faker'
 
-type FakeGetter<T extends Document> = {
+type FakeGetter<T extends { _id?: any }> = {
   _get(id: any): T
 }
 
-export async function wrapMongoCollection<T extends Document>(
+export async function wrapMongoCollection<T extends { _id?: any }>(
   data: Array<T>,
-): Promise<Collection<T> & FakeGetter<T>> {
-  const map = data.reduce(
+): Promise<ICollection<T> & FakeGetter<T>> {
+  const map: { [key: string]: T } = data.reduce(
     (target, item) => Object.assign(target, { [item._id]: item }),
     {},
   )
-  const dbName = faker.lorem.word()
-  const collectionName = faker.lorem.word()
+  const dbName = lorem.word()
+  const collectionName = lorem.word()
   const db = Monk(`localhost/${dbName}`)
   // await db
-  const collection: Collection<T> = db.get(collectionName)
+  const collection: ICollection<T> = db.get(collectionName)
   await collection.bulkWrite(
-    data.map(item => ({
+    data.map((item: T) => ({
       insertOne: {
         document: item,
       },
     })),
   )
   return Object.assign({}, collection, {
-    _get(id) {
+    _get(id: string) {
       return map[id]
     },
   })

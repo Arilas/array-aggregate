@@ -1,5 +1,5 @@
 /** @flow */
-import { buildFilter, operatorsFlow } from './buildFilter'
+import { buildFilter, operatorsFlow, Schema } from './buildFilter'
 
 const createdAt = new Date()
 
@@ -30,33 +30,73 @@ describe('query:buildFilter', () => {
   describe('operatorsFlow', () => {
     it('should work with logical operators', () => {
       const schema = {}
-      console.log(operatorsFlow('$and', [], schema), schema)
+      operatorsFlow('$and', [], schema, undefined)
       expect(schema).toHaveProperty('$and')
       expect(schema).toHaveProperty('$and.$_Val')
       expect(schema).toHaveProperty('$and.$_SchemaKey', '$and')
       expect(schema).toHaveProperty('$and.$_Matcher.match')
-      throw new Error()
     })
   })
 })
 
 it('should work with simple schema', () => {
-  const filterFn = buildFilter(secondQuery)
+  const schema: Schema = {}
+  const demoObj = {
+    foo: ['bar', 'test'],
+    createdAt,
+    a: [
+      {
+        b: [
+          {
+            c: 1,
+          },
+        ],
+      },
+    ],
+  }
+  const filterFn = buildFilter(secondQuery, undefined, schema)
+  expect(schema).toHaveProperty('foo.$eq.$_Val', secondQuery.foo.$eq)
+  expect(schema).toHaveProperty('foo.$eq.$_Field', 'foo')
+  expect(schema).toHaveProperty('foo.$eq.$_SchemaKey', '$eq')
+  // @ts-ignore
+  expect(schema.foo.$eq.$_Matcher.match(demoObj)).toBeTruthy()
   expect(
-    filterFn.match({
-      foo: ['bar', 'test'],
-      createdAt,
-      a: [
-        {
-          b: [
-            {
-              c: 1,
-            },
-          ],
-        },
-      ],
+    // @ts-ignore
+    schema.foo.$eq.$_Matcher.match({
+      ...demoObj,
+      foo: ['test'],
     }),
-  ).toBeTruthy()
+  ).toBeFalsy()
+  expect(schema).toHaveProperty('foo.$exists.$_Val', secondQuery.foo.$exists)
+  expect(schema).toHaveProperty('foo.$exists.$_Field', 'foo')
+  expect(schema).toHaveProperty('foo.$exists.$_SchemaKey', '$exists')
+  // @ts-ignore
+  expect(schema.foo.$exists.$_Matcher.match(demoObj)).toBeTruthy()
+  expect(
+    // @ts-ignore
+    schema.foo.$exists.$_Matcher.match({
+      ...demoObj,
+      foo: undefined,
+    }),
+  ).toBeFalsy()
+  // @ts-ignore
+  expect(schema.foo.$_Matcher.match(demoObj)).toBeTruthy()
+  expect(
+    // @ts-ignore
+    schema.foo.$_Matcher.match({
+      ...demoObj,
+      foo: ['test'],
+    }),
+  ).toBeFalsy()
+  expect(
+    // @ts-ignore
+    schema.foo.$_Matcher.match({
+      ...demoObj,
+      foo: undefined,
+    }),
+  ).toBeFalsy()
+
+  expect(filterFn.match(demoObj)).toBeTruthy()
 })
 
 it('should work with dates', () => {

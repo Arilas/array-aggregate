@@ -34,9 +34,9 @@ const makeRandomItem = () => {
   return data
 }
 
-function mapValue<T extends { [k: string]: R }, N extends keyof T, R = T[N]>(
+function mapValue<N extends string, T extends { [key in N]: any }>(
   name: N,
-): (item: T) => R {
+): (item: T) => T[N] {
   return (item) => item[name]
 }
 

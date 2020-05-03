@@ -6,7 +6,7 @@ type Query = {
 
 const toString = Object.prototype.toString
 
-const detectType = (value, key) => {
+const detectType = (value: any, key: string) => {
   if (key === '_id') {
     return 'objectId'
   }

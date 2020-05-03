@@ -9,7 +9,10 @@ export function inFn(
     | (string | number | Date | RegExp)[]
   )[],
 ) {
-  const matchers = rule.map(eq)
+  const matchers: ((value: (string | number | Date)[]) => boolean)[] = rule.map(
+    // @ts-ignore
+    eq,
+  )
   return (
     value:
       | string
@@ -18,8 +21,10 @@ export function inFn(
       | (string | number | Date | (string | number | Date)[])[],
   ) => {
     if (Array.isArray(value)) {
+      // @ts-ignore
       return value.some((item) => matchers.some((check) => check(item)))
     } else {
+      // @ts-ignore
       return matchers.some((check) => check(value))
     }
   }

@@ -17,7 +17,7 @@ export type ValueOperands =
   | '$ne'
   | '$in'
   | '$nin'
-export type ValueType = { [key in ValueOperands]: <T>() => Match<T> }
+export type ValueType = { [key in ValueOperands]: <T>(rule: any) => Match<T> }
 
 export default {
   $eq: eq,
@@ -28,4 +28,4 @@ export default {
   $ne: ne,
   $in: inFn,
   $nin: nin,
-}
+} as ValueType

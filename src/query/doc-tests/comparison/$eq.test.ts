@@ -1,8 +1,12 @@
 /** @flow */
-import { wrapCollection } from '../../../wrapCollection'
+import { wrapCollection, FakeCollection } from '../../../wrapCollection'
 import { wrapMongoCollection } from '../../../../test/utils/mongoCollection'
 
-let collections = {}
+// @ts-ignore
+let collections: {
+  fake: FakeCollection<typeof items[0]>
+  real: FakeCollection<typeof items[0]>
+} = {}
 
 const items = [
   {
@@ -25,25 +29,31 @@ const items = [
 beforeAll(async () => {
   collections = {
     fake: wrapCollection(items),
+    // @ts-ignore
     real: await wrapMongoCollection(items),
   }
 })
 
-test.each(['fake', 'real'])('[%s] Equals a Specified Value', async (item) => {
-  const inventory = collections[item]
-  const result1 = await inventory.find({ qty: { $eq: 20 } })
-  const result2 = await inventory.find({ qty: 20 })
-  expect(result1).toHaveLength(2)
-  expect(result2).toHaveLength(2)
-  expect(result1[0]).toMatchObject(inventory._get(2))
-  expect(result1[1]).toMatchObject(inventory._get(5))
-  expect(result2[0]).toMatchObject(inventory._get(2))
-  expect(result2[1]).toMatchObject(inventory._get(5))
-})
+test.each(['fake', 'real'])(
+  '[%s] Equals a Specified Value',
+  // @ts-ignore
+  async (item: 'fake' | 'real') => {
+    const inventory = collections[item]
+    const result1 = await inventory.find({ qty: { $eq: 20 } })
+    const result2 = await inventory.find({ qty: 20 })
+    expect(result1).toHaveLength(2)
+    expect(result2).toHaveLength(2)
+    expect(result1[0]).toMatchObject(inventory._get(2))
+    expect(result1[1]).toMatchObject(inventory._get(5))
+    expect(result2[0]).toMatchObject(inventory._get(2))
+    expect(result2[1]).toMatchObject(inventory._get(5))
+  },
+)
 
 test.each(['fake', 'real'])(
   '[%s] Field in Embedded Document Equals a Value',
-  async (item) => {
+  // @ts-ignore
+  async (item: 'fake' | 'real') => {
     const inventory = collections[item]
     const result1 = await inventory.find({ 'item.name': { $eq: 'ab' } })
     const result2 = await inventory.find({ 'item.name': 'ab' })
@@ -56,7 +66,8 @@ test.each(['fake', 'real'])(
 
 test.each(['fake', 'real'])(
   '[%s] Array Element Equals a Value',
-  async (item) => {
+  // @ts-ignore
+  async (item: 'fake' | 'real') => {
     const inventory = collections[item]
     const result1 = await inventory.find({ tags: { $eq: 'B' } })
     const result2 = await inventory.find({ tags: 'B' })
@@ -73,17 +84,21 @@ test.each(['fake', 'real'])(
   },
 )
 
-test.each(['fake', 'real'])('[%s] Equals an Array Value', async (item) => {
-  const inventory = collections[item]
-  const result1 = await inventory.find({ tags: { $eq: ['A', 'B'] } })
-  const result2 = await inventory.find({ tags: ['A', 'B'] })
-  expect(result1).toHaveLength(2)
-  expect(result2).toHaveLength(2)
-  expect(result1[0]).toMatchObject(inventory._get(3))
-  expect(result1[1]).toMatchObject(inventory._get(5))
-  expect(result2[0]).toMatchObject(inventory._get(3))
-  expect(result2[1]).toMatchObject(inventory._get(5))
-})
+test.each(['fake', 'real'])(
+  '[%s] Equals an Array Value',
+  // @ts-ignore
+  async (item: 'fake' | 'real') => {
+    const inventory = collections[item]
+    const result1 = await inventory.find({ tags: { $eq: ['A', 'B'] } })
+    const result2 = await inventory.find({ tags: ['A', 'B'] })
+    expect(result1).toHaveLength(2)
+    expect(result2).toHaveLength(2)
+    expect(result1[0]).toMatchObject(inventory._get(3))
+    expect(result1[1]).toMatchObject(inventory._get(5))
+    expect(result2[0]).toMatchObject(inventory._get(3))
+    expect(result2[1]).toMatchObject(inventory._get(5))
+  },
+)
 
 afterAll(async () => {
   collections.real && (await collections.real.drop())

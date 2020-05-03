@@ -9,9 +9,9 @@ export type FakeCollection<T extends { _id: string | number }> = {
 }
 
 export function wrapCollection<T extends { _id: string | number }>(
-  collection: Array<T>,
+  collection: T[],
 ): FakeCollection<T> {
-  const map = collection.reduce(
+  const map: { [key: string]: T } = collection.reduce(
     (target, item) => Object.assign(target, { [item._id]: item }),
     {},
   )
