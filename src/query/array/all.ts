@@ -1,10 +1,8 @@
 /** @flow */
-import { Matcher } from '../createMatcher'
+import { Matcher, Match } from '../createMatcher'
 
-type AllMatch<T> = (value: T) => boolean
-
-export function all<T>(matchers: Matcher<T>[]): AllMatch<T> {
-  return (value) =>
+export function all<T>(matchers: Matcher<T>[]): Match<T> {
+  return (value: T) =>
     Array.isArray(value)
       ? matchers.every((matcher) => value.some(matcher.match))
       : value != undefined

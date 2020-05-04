@@ -54,7 +54,7 @@ it('should work with simple schema', () => {
       },
     ],
   }
-  const filterFn = buildFilter(secondQuery, undefined, schema)
+  const filterFn = buildFilter<typeof demoObj>(secondQuery, undefined, schema)
   expect(schema).toHaveProperty('foo.$eq.$_Val', secondQuery.foo.$eq)
   expect(schema).toHaveProperty('foo.$eq.$_Field', 'foo')
   expect(schema).toHaveProperty('foo.$eq.$_SchemaKey', '$eq')
@@ -100,7 +100,7 @@ it('should work with simple schema', () => {
 })
 
 it('should work with dates', () => {
-  const filterFn = buildFilter({
+  const filterFn = buildFilter<{ createdAt: string | Date }>({
     createdAt: {
       $gte: new Date('2017-01-01'),
     },

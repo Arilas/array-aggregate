@@ -1,14 +1,6 @@
 import { eq } from './eq'
 
-export function inFn(
-  rule: (
-    | string
-    | number
-    | Date
-    | RegExp
-    | (string | number | Date | RegExp)[]
-  )[],
-) {
+export function inFn(rule: (string | number | Date | RegExp)[][]) {
   const matchers: ((value: (string | number | Date)[]) => boolean)[] = rule.map(
     // @ts-ignore
     eq,

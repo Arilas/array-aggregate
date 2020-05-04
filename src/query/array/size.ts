@@ -1,9 +1,11 @@
 /** @flow */
 
-type SizeMatch = (value: Array<any> | Map<any, any> | null) => boolean
+import { Match } from '../createMatcher'
 
-export function size(rule: number): SizeMatch {
-  return (value) =>
+export function size<T extends { length?: number; size?: number }>(
+  rule: number,
+): Match<T> {
+  return (value: T) =>
     Array.isArray(value)
       ? value.length === rule
       : value && value.size

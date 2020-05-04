@@ -9,6 +9,7 @@ import array, { ArrayOperands } from './array'
 import { compose } from '../utils/compose'
 import { cond } from '../utils/cond'
 import { composeArgs } from '../utils/composeArgs'
+import { Query } from './types'
 
 type Operands =
   | LogicalOperands
@@ -317,8 +318,8 @@ export const flow = cond([
   [T, value2Flow],
 ])
 
-export function buildFilter<T>(
-  query: { [key: string]: any },
+export function buildFilter<T extends object = {}>(
+  query: Query<T>,
   key?: string | undefined,
   schema: Schema = {},
 ): Matcher<T> {
