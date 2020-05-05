@@ -1,12 +1,14 @@
 /** @flow */
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
+interface TestObj {}
+
 it('Element Match', () => {
   const scores = [
     { _id: 1, results: [82, 85, 88] },
     { _id: 2, results: [75, 88, 89] },
   ]
-  const query = makeQueryFilter({
+  const query = makeQueryFilter<TestObj>({
     results: { $elemMatch: { $gte: 80, $lt: 85 } },
   })
   const result = scores.filter(query.match)
@@ -38,7 +40,7 @@ const survey = [
 ]
 
 it('Array of Embedded Documents', () => {
-  const query = makeQueryFilter({
+  const query = makeQueryFilter<TestObj>({
     results: { $elemMatch: { product: 'xyz', score: { $gte: 8 } } },
   })
   const result = survey.filter(query.match)
@@ -53,10 +55,10 @@ it('Array of Embedded Documents', () => {
 })
 
 it('Single Query Condition', () => {
-  const query1 = makeQueryFilter({
+  const query1 = makeQueryFilter<TestObj>({
     results: { $elemMatch: { product: 'xyz' } },
   })
-  const query2 = makeQueryFilter({ 'results.product': 'xyz' })
+  const query2 = makeQueryFilter<TestObj>({ 'results.product': 'xyz' })
   const result1 = survey.filter(query1.match)
   const result2 = survey.filter(query2.match)
   expect(result1).toHaveLength(3)

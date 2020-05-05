@@ -1,9 +1,9 @@
-export type SimpleType = string | number | Date
+export type SimpleType = string | number | Date | boolean
 
 export type Query<T extends object = {}, K = keyof T> = {
   [key in keyof T]?: Required<T>[key] extends SimpleType
     ? SimpleEqValidation
-    : Required<T>[key] extends (string | number | Date)[]
+    : Required<T>[key] extends (string | number | Date | SimpleType[])[]
     ? SimpleArrayValidation
     : Required<T>[key] extends object[]
     ? ArrayValidation<Required<T>[key][0]>
@@ -37,6 +37,7 @@ export type BasicOperators = {
   $gte?: string | Date | number
   $lt?: string | Date | number
   $lte?: string | Date | number
+  $mod?: [number, number]
   $in?:
     | string[]
     | Date[]
@@ -51,12 +52,22 @@ export type BasicOperators = {
     | RegExp[]
     | (string | Date | number | RegExp)[]
   $ne?: string | Date | number | RegExp | (string | Date | number | RegExp)[]
+  $all?: (
+    | string
+    | Date
+    | number
+    | RegExp
+    | (string | Date | number | RegExp)[]
+  )[]
 }
 
 export type SimpleEqValidation =
   | string
   | number
   | Date
+  | RegExp
+  | boolean
+  | SimpleType[]
   | (BasicOperators & {
       $not?: BasicOperators
       $and?: BasicOperators[]
@@ -68,6 +79,9 @@ export type SimpleArrayValidation =
   | string
   | number
   | Date
+  | RegExp
+  | boolean
+  | SimpleType[]
   | (BasicOperators & {
       $not?: BasicOperators
       $and?: BasicOperators[]

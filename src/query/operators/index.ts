@@ -3,6 +3,7 @@ import { gt } from './gt'
 import { gte } from './gte'
 import { lt } from './lt'
 import { lte } from './lte'
+import { mod } from './mod'
 import { ne } from './ne'
 import { inFn } from './in'
 import { nin } from './nin'
@@ -14,6 +15,7 @@ export type ValueOperands =
   | '$gte'
   | '$lt'
   | '$lte'
+  | '$mod'
   | '$ne'
   | '$in'
   | '$nin'
@@ -25,6 +27,7 @@ export default {
   $gte: gte,
   $lt: lt,
   $lte: lte,
+  $mod: mod,
   $ne: ne,
   $in: inFn,
   $nin: nin,

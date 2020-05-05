@@ -23,3 +23,23 @@ export function createMatcher<T>(
     },
   }
 }
+
+export function createAllMatcher<T>(
+  resolver: Function,
+  fieldResolver: (ctx: T) => Generator,
+): Matcher<T> {
+  return {
+    match(ctx) {
+      const fields = []
+      for (const field of fieldResolver(ctx)) {
+        fields.push(field)
+        if (resolver(field)) {
+          return true
+        }
+      }
+
+      // @ts-ignore
+      return fields.length > 1 ? resolver(fields) : false
+    },
+  }
+}

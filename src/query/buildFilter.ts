@@ -1,5 +1,5 @@
 /** @flow */
-import { createMatcher, Matcher } from './createMatcher'
+import { createMatcher, Matcher, createAllMatcher } from './createMatcher'
 import { fieldSelector } from './fieldSelector'
 
 import logical, { LogicalOperands } from './logical'
@@ -104,13 +104,18 @@ const makeMatcher = (
     key: string | undefined,
   ) => Matcher<any>,
 ) => (operand: any, value: any, schema: Schema, key: string | undefined) => {
-  const matcher = maker(operand, value, schema, key)
-  if (!schema.hasOwnProperty(operand)) {
-    throw new Error(`Matcher wrongly registered`)
+  try {
+    const matcher = maker(operand, value, schema, key)
+    if (!schema.hasOwnProperty(operand)) {
+      throw new Error(`Matcher wrongly registered`)
+    }
+    // @ts-ignore
+    schema[operand].$_Matcher = matcher
+    return matcher
+  } catch (err) {
+    console.log(err, operand, value, key, schema)
+    throw err
   }
-  // @ts-ignore
-  schema[operand].$_Matcher = matcher
-  return matcher
 }
 
 const ruleIsArray = (
@@ -231,7 +236,7 @@ const elemMatchFlow = composeArgs(
       key: string | undefined,
     ) =>
       createMatcher(
-        array.$elemMatch(buildFilter(rule, undefined, schema[operator])),
+        array[operator](buildFilter(rule, undefined, schema[operator])),
         fieldSelector(key),
       ),
   ),
@@ -246,6 +251,9 @@ const arrayFlow = composeArgs(
       schema: Schema,
       key: string | undefined,
     ) => {
+      if (operator === '$size') {
+        return createMatcher(array[operator](rule), fieldSelector(key))
+      }
       // @ts-ignore
       const schemaPart: SchemaPart[] = schema[operator]
       const matchers = rule.map((item) => {
@@ -273,7 +281,7 @@ const arrayFlow = composeArgs(
           return buildFilter(item, undefined, lineSchema)
         }
       })
-      return createMatcher(array[operator](matchers), fieldSelector(key))
+      return createAllMatcher(array[operator](matchers), fieldSelector(key))
     },
   ),
   setInSchema(() => []),
@@ -326,130 +334,9 @@ export function buildFilter<T extends object = {}>(
   const matchers = Object.keys(query).map((operand) => {
     const part = query[operand]
     return flow(operand as Operands, part, schema, key)
-    //   if (!isOperand(operand)) {
-    // if (isSimpleValue(part) || Array.isArray(part)) {
-    //   schema[operand] = {
-    //     $eq: {
-    //       $_Val: part,
-    //       $_Field: composeKey(key, operand),
-    //     },
-    //   }
-    //   const matcher = createMatcher(
-    //     operators.$eq(part),
-    //     fieldSelector(composeKey(key, operand)),
-    //   )
-    //   schema[operand].$eq.$_SchemaKey = key
-    //   schema[operand].$eq.$_Matcher = matcher
-    //   return matcher
-    // } else {
-    //   schema[operand] = {}
-    //   return buildFilter(part, composeKey(key, operand), schema[operand])
-    // }
-    //   }
-    // if (logical.hasOwnProperty(operand)) {
-    //   if (Array.isArray(part)) {
-    //     schema[operand] = []
-    //     const matchers = part.map((line) => {
-    //       const lineSchema = {}
-    //       schema[operand].push(lineSchema)
-    //       return buildFilter(line, undefined, lineSchema)
-    //     })
-    //     const matcher = createMatcher(
-    //       logical[operand](matchers),
-    //       fieldSelector(key),
-    //     )
-    //     schema[operand].$_SchemaKey = key
-    //     schema[operand].$_Matcher = matcher
-    //     return matcher
-    //   } else {
-    //     schema[operand] = {}
-    //     let matcher
-    //     if (isSimpleValue(part)) {
-    //       matcher = createMatcher(
-    //         logical[operand](
-    //           createMatcher(operators.$eq(part), fieldSelector(undefined)),
-    //         ),
-    //         fieldSelector(key),
-    //       )
-    //     } else {
-    //       matcher = createMatcher(
-    //         logical[operand](buildFilter(part, undefined, schema[operand])),
-    //         fieldSelector(key),
-    //       )
-    //     }
-    //     schema[operand].$_SchemaKey = key
-    //     schema[operand].$_Matcher = matcher
-    //     return matcher
-    //   }
-    // }
-    // if (operators.hasOwnProperty(operand)) {
-    //   schema[operand] = {
-    //     $_Val: part,
-    //     $_Field: key,
-    //   }
-    //   const matcher = createMatcher(
-    //     operators[operand](part),
-    //     fieldSelector(key),
-    //   )
-    //   schema[operand].$_SchemaKey = key
-    //   schema[operand].$_Matcher = matcher
-    //   return matcher
-    // }
-    //   if (element.hasOwnProperty(operand)) {
-    //     schema[operand] = { $_Val: part, $_Field: key }
-    //     const matcher = createMatcher(element[operand](part), fieldSelector(key))
-    //     schema[operand].$_SchemaKey = key
-    //     schema[operand].$_Matcher = matcher
-    //     return matcher
-    //   }
-    // if (operand === '$elemMatch') {
-    //   schema[operand] = {}
-    //   const matcher = createMatcher(
-    //     array.$elemMatch(buildFilter(part, undefined, schema[operand])),
-    //     fieldSelector(key),
-    //   )
-    //   schema[operand].$_SchemaKey = key
-    //   schema[operand].$_Matcher = matcher
-    //   return matcher
-    // } else if (array.hasOwnProperty(operand)) {
-    //   schema[operand] = []
-    //   const matchers = part.map((item) => {
-    //     const lineSchema = {}
-    //     schema[operand].push(lineSchema)
-    //     if (isSimpleValue(item)) {
-    //       lineSchema.$eq = {
-    //         $_Val: item,
-    //         $_Field: key,
-    //         $_SchemaKey: undefined,
-    //         $_Matcher: undefined,
-    //       }
-    //       const matcher = createMatcher(
-    //         operators.$eq(item),
-    //         fieldSelector(undefined),
-    //       )
-    //       lineSchema.$eq.$_SchemaKey = key
-    //       lineSchema.$eq.$_Matcher = matcher
-    //       return matcher
-    //     } else {
-    //       return buildFilter(item, undefined, lineSchema)
-    //     }
-    //   })
-    //   const matcher = createMatcher(
-    //     array[operand](matchers),
-    //     fieldSelector(key),
-    //   )
-    //   schema[operand].push({
-    //     $_SchemaKey: key,
-    //     $_Matcher: matcher,
-    //   })
-    //   return matcher
-    // } else {
-    //   throw new Error('Wrong query')
-    // }
   })
   const matcher = createMatcher(
     (ctx: any) => matchers.every((matcher) => matcher.match(ctx)),
-    // () => true,
     fieldSelector(undefined),
   )
   matcher.schema = schema

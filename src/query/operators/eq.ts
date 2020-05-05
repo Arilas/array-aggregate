@@ -41,6 +41,9 @@ export function eq(
       )
     }
   }
+  if (rule === null) {
+    return (value: any | null) => value == null
+  }
   if (rule instanceof Date) {
     return (value: string | Date) => {
       if (value instanceof Date) {

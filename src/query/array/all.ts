@@ -1,11 +1,16 @@
 /** @flow */
 import { Matcher, Match } from '../createMatcher'
 
-export function all<T>(matchers: Matcher<T>[]): Match<T> {
+// TODO: $elemMatch support
+
+export function all<T extends any[]>(rule: Matcher<T>[]): Match<T> {
+  if (rule.length == 0) {
+    return (value: T) => false
+  }
   return (value: T) =>
     Array.isArray(value)
-      ? matchers.every((matcher) => value.some(matcher.match))
+      ? rule.every((matcher) => value.some(matcher.match))
       : value != undefined
-      ? matchers.every((matcher) => matcher.match(value))
+      ? rule.every((matcher) => matcher.match(value))
       : false
 }

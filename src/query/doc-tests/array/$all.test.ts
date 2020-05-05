@@ -3,9 +3,15 @@ import { makeQueryFilter } from '../../../makeQueryFilter'
 
 const ObjectId = (val: any) => val
 
-it('Equivalent to $and Operation', () => {
-  const query1 = makeQueryFilter({ tags: { $all: ['ssl', 'security'] } })
-  const query2 = makeQueryFilter({
+interface TestObj {
+  tags: string[] | (string[] | string)[]
+}
+
+it('Equivalent to and Operation', () => {
+  const query1 = makeQueryFilter<TestObj>({
+    tags: { $all: ['ssl', 'security'] },
+  })
+  const query2 = makeQueryFilter<TestObj>({
     $and: [{ tags: 'ssl' }, { tags: 'security' }],
   })
   const objPass = {
@@ -15,16 +21,22 @@ it('Equivalent to $and Operation', () => {
   expect(query1.match(objPass)).toBeTruthy()
   expect(query2.match(objPass)).toBeTruthy()
   for (const fail of toFail) {
+    // @ts-ignore
     expect(query1.match(fail)).toBeFalsy()
+    // @ts-ignore
     expect(query2.match(fail)).toBeFalsy()
   }
 })
 
 it('Nested Array', () => {
-  const query1 = makeQueryFilter({ tags: { $all: [['ssl', 'security']] } })
-  const query2 = makeQueryFilter({ $and: [{ tags: ['ssl', 'security'] }] })
-  const query3 = makeQueryFilter({ tags: ['ssl', 'security'] })
-  const toPass = [
+  const query1 = makeQueryFilter<TestObj>({
+    tags: { $all: [['ssl', 'security']] },
+  })
+  const query2 = makeQueryFilter<TestObj>({
+    $and: [{ tags: ['ssl', 'security'] }],
+  })
+  const query3 = makeQueryFilter<TestObj>({ tags: ['ssl', 'security'] })
+  const toPass: TestObj[] = [
     {
       tags: [
         ['ssl', 'security'],
@@ -43,6 +55,7 @@ it('Nested Array', () => {
     },
   ]
   for (const objPass of toPass) {
+    console.log(objPass)
     expect(query1.match(objPass)).toBeTruthy()
     expect(query2.match(objPass)).toBeTruthy()
     expect(query3.match(objPass)).toBeTruthy()
@@ -62,8 +75,11 @@ it('Nested Array', () => {
   expect(query2.match(nestedCheck)).toBeTruthy()
   expect(query3.match(nestedCheck)).toBeTruthy()
   for (const fail of toFail) {
+    // @ts-ignore
     expect(query1.match(fail)).toBeFalsy()
+    // @ts-ignore
     expect(query2.match(fail)).toBeFalsy()
+    // @ts-ignore
     expect(query3.match(fail)).toBeFalsy()
   }
 })
@@ -111,7 +127,7 @@ const inventory = [
 ]
 
 it('Use $all to Match Values', () => {
-  const query = makeQueryFilter({
+  const query = makeQueryFilter<TestObj>({
     tags: { $all: ['appliance', 'school', 'book'] },
   })
   const result = inventory.filter(query.match)
@@ -139,7 +155,7 @@ it('Use $all to Match Values', () => {
 })
 
 it('Use $all with $elemMatch', () => {
-  const query = makeQueryFilter({
+  const query = makeQueryFilter<TestObj>({
     qty: {
       $all: [
         { $elemMatch: { size: 'M', num: { $gt: 50 } } },
@@ -152,8 +168,8 @@ it('Use $all with $elemMatch', () => {
 })
 
 it('$all non-array field', () => {
-  const query1 = makeQueryFilter({ 'qty.num': { $all: [50] } })
-  const query2 = makeQueryFilter({ 'qty.num': 50 })
+  const query1 = makeQueryFilter<TestObj>({ 'qty.num': { $all: [50] } })
+  const query2 = makeQueryFilter<TestObj>({ 'qty.num': 50 })
 
   const result1 = inventory.filter(query1.match)
   const result2 = inventory.filter(query2.match)
