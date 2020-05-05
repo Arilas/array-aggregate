@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node_version }}
       - name: Prepare env
         run: |
-          npm i -g yarn
+          npm i -g yarn codecov
           yarn install
       - name: Check types
         run: yarn dist
@@ -32,3 +32,5 @@ jobs:
         run: yarn lint
       - name: Run tests
         run: yarn test --coverage
+      - name: Upload coverage
+        run: codecov
