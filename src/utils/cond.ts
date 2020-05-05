@@ -1,5 +1,5 @@
 export type Pair<T extends any[], R> = [
-  (...args: T) => boolean,
+  (...args: any[]) => boolean,
   (...args: T) => R,
 ]
 

@@ -55,7 +55,6 @@ it('Nested Array', () => {
     },
   ]
   for (const objPass of toPass) {
-    console.log(objPass)
     expect(query1.match(objPass)).toBeTruthy()
     expect(query2.match(objPass)).toBeTruthy()
     expect(query3.match(objPass)).toBeTruthy()

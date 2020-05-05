@@ -1,5 +1,4 @@
 import { wrapCollection } from '../../../../wrapCollection'
-import { Query } from '../../../types'
 
 interface TestObj {
   _id?: number | string
@@ -7,10 +6,7 @@ interface TestObj {
 }
 
 describe('query:tests:aggregation:bugs', () => {
-  let coll = wrapCollection<TestObj>([])
-  async function assertResults(results: TestObj[], query: Query<TestObj>) {
-    expect(await coll.find(query)).toMatchObject(results)
-  }
+  const coll = wrapCollection<TestObj>([])
 
   it('shouldPass', async () => {
     // No results.

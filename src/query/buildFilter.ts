@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /** @flow */
 import { createMatcher, Matcher, createAllMatcher } from './createMatcher'
 import { fieldSelector } from './fieldSelector'
@@ -6,7 +7,6 @@ import logical, { LogicalOperands } from './logical'
 import operators, { ValueOperands } from './operators'
 import element, { ElementOperands } from './element'
 import array, { ArrayOperands } from './array'
-import { compose } from '../utils/compose'
 import { cond } from '../utils/cond'
 import { composeArgs } from '../utils/composeArgs'
 import { Query } from './types'
@@ -40,18 +40,18 @@ const isSimpleValue = (value: any) =>
   value == null ||
   value instanceof Date ||
   value instanceof RegExp
-const isOperand = (key: Operands, ...args: any[]): key is Operands =>
+const isOperand = (key: Operands): key is Operands =>
   key.indexOf('$') === 0 ? availableOperators.includes(key) : false
-const isLogical = (key: Operands, ...args: any[]): key is LogicalOperands =>
+const isLogical = (key: Operands): key is LogicalOperands =>
   // @ts-ignore
   logicalOperators.includes(key)
-const isValue = (key: Operands, ...args: any[]): key is ValueOperands =>
+const isValue = (key: Operands): key is ValueOperands =>
   // @ts-ignore
   valueOperators.includes(key)
-const isElement = (key: Operands, ...args: any[]): key is ElementOperands =>
+const isElement = (key: Operands): key is ElementOperands =>
   // @ts-ignore
   elementOperators.includes(key)
-const isArray = (key: Operands, ...args: any[]): key is ArrayOperands =>
+const isArray = (key: Operands): key is ArrayOperands =>
   // @ts-ignore
   arrayOperators.includes(key)
 const composeKey = (key: string | undefined, operand: string) =>
@@ -118,23 +118,13 @@ const makeMatcher = (
   }
 }
 
-const ruleIsArray = (
-  operand: Operands,
-  value: any,
-  schema: Schema,
-  key: string | undefined,
-) => {
+const ruleIsArray = (operand: Operands, value: any) => {
   return Array.isArray(value)
 }
-const ruleIsSimple = (
-  operand: Operands,
-  value: any,
-  schema: Schema,
-  key: string | undefined,
-) => {
+const ruleIsSimple = (operand: Operands, value: any) => {
   return isSimpleValue(value)
 }
-const T = (...args: any[]) => true
+const T = () => true
 
 const logicalFlow = cond([
   [

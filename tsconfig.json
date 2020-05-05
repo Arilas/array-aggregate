@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "lib": ["ESNext"],
-    "module": "esnext",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "lib": [],
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "noEmit": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
     "preserveConstEnums": true,
     "removeComments": false,
     "skipLibCheck": true,
-    "sourceMap": true,
     "strict": true,
-    "target": "es2020",
-    "outDir": "lib"
+    "target": "ES2019",
+    "composite": true,
+    "sourceMap": true
   },
-  "include": ["src"],
-  "exclude": ["test"]
+  "include": ["src"]
 }

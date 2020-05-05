@@ -58,3 +58,8 @@ typings/
 # dotenv environment variables file
 .env
 
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
+tsconfig.tsbuildinfo

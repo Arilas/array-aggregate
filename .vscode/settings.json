@@ -1,5 +1,16 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.formatOnType": true
+  "editor.formatOnType": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "src/**/*.js": true,
+    "src/**/*.js.map": true,
+    "src/**/*.d.ts": true,
+    "src/**/*.d.ts.map": true
+  }
 }

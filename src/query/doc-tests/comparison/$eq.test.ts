@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /** @flow */
 import { wrapCollection, FakeCollection } from '../../../wrapCollection'
-import { wrapMongoCollection } from '../../../../test/utils/mongoCollection'
+import { wrapMongoCollection } from '../../tests/utils/mongoCollection'
 
 // @ts-ignore
 let collections: {

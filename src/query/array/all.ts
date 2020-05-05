@@ -5,7 +5,7 @@ import { Matcher, Match } from '../createMatcher'
 
 export function all<T extends any[]>(rule: Matcher<T>[]): Match<T> {
   if (rule.length == 0) {
-    return (value: T) => false
+    return () => false
   }
   return (value: T) =>
     Array.isArray(value)

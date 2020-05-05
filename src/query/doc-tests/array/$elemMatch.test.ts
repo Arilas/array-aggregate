@@ -1,6 +1,7 @@
 /** @flow */
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface TestObj {}
 
 it('Element Match', () => {
