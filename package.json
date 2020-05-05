@@ -7,7 +7,7 @@
     "prepublish": "in-publish && npm run dist || echo 'Bad mode'",
     "lint": "eslint src/**/*.ts",
     "dist": "tsc",
-    "test": "jest"
+    "test": "jest --forceExit"
   },
   "repository": {
     "type": "git",
