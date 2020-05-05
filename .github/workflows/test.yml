@@ -2,16 +2,16 @@ name: CI
 
 on: [push]
 
-services:
-  mongodb:
-    image: mongo:4
-    ports:
-      - 27017:27017
-
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:4
+        ports:
+          - 27017:27017
+
     strategy:
       matrix:
         node_version: ['10', '12', '14']
