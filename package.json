@@ -4,9 +4,9 @@
   "description": "Mongo-like aggregate for arrays",
   "main": "lib/index.js",
   "scripts": {
-    "dist": "babel -d lib/ src/",
     "prepublish": "in-publish && npm run dist || echo 'Bad mode'",
-    "lint": "eslint .",
+    "lint": "eslint src/**/*.ts",
+    "dist": "tsc",
     "test": "jest"
   },
   "repository": {
