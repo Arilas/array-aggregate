@@ -1,7 +1,6 @@
 # array-aggregate - Mongo-like querying and filtration
 
-[![CircleCI](https://circleci.com/gh/Arilas/array-aggregate.svg?style=svg)](https://circleci.com/gh/Arilas/array-aggregate)[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
-
+![CI](https://github.com/Arilas/array-aggregate/workflows/CI/badge.svg)[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
 
 ## Installation
 
@@ -16,112 +15,118 @@ import { makeQueryFilter } from 'array-aggregate'
 
 const filterFn = makeQueryFilter({
   tags: 'bar',
-  'history.creator': 1 // User Id
+  'history.creator': 1, // User Id
 })
 
-console.log(filterFn.match({
-  tags: ['foo', 'bar', 'etc'],
-  history: [
-    {
-      creator: 0
-    },
-    {
-      creator: 1
-    }
-  ]
-})) // true
+console.log(
+  filterFn.match({
+    tags: ['foo', 'bar', 'etc'],
+    history: [
+      {
+        creator: 0,
+      },
+      {
+        creator: 1,
+      },
+    ],
+  }),
+) // true
 
-console.log(filterFn.match({
-  tags: ['foo', 'etc'],
-  history: [
-    {
-      creator: 0
-    },
-    {
-      creator: 1
-    }
-  ]
-})) // false
+console.log(
+  filterFn.match({
+    tags: ['foo', 'etc'],
+    history: [
+      {
+        creator: 0,
+      },
+      {
+        creator: 1,
+      },
+    ],
+  }),
+) // false
 
-console.log(filterFn.match({
-  tags: ['foo', 'bar', 'etc'],
-  history: [
-    {
-      creator: 0
-    }
-  ]
-})) // false
+console.log(
+  filterFn.match({
+    tags: ['foo', 'bar', 'etc'],
+    history: [
+      {
+        creator: 0,
+      },
+    ],
+  }),
+) // false
 ```
 
 ## Built-in operators
 
-### $eq
+### \$eq
 
 Check that value is equal to some in query. Work with array, string, number, Date, boolean
 
-### $gt
+### \$gt
 
 Check that value is greater than some in query. Work with number, Date
 
-### $gte
+### \$gte
 
 Check that value is greater than or equal some in query. Work with number, Date
 
-### $lt
+### \$lt
 
 Check that value is less than some in query. Work with number, Date
 
-### $lte
+### \$lte
 
 Check that value is less than or equal some in query. Work with number, Date
 
-### $ne
+### \$ne
 
 Check that value is not equal some in query. Work with array, string, number, Date, boolean
 
-### $in
+### \$in
 
 Check that value is a member of some in query. Work with array, string, number
 
-### $nin
+### \$nin
 
 Check that value is not a member of some in query. Work with array, string, number
 
 ## Built-in logical Operators
 
-### $and
+### \$and
 
 Check that all matches are true
 
-### $or
+### \$or
 
 Check that at least one matches are true
 
-### $nor
+### \$nor
 
 Check that all matches are false
 
-### $not
+### \$not
 
 Negotiate inner condition result
 
 ## Built-in element Operators
 
-### $exists
+### \$exists
 
 If it's `true` we will check that needed field exists in object, if it's `false` we will check that needed field is not inside object
 
 ## Array Operators
 
-## $all
+## \$all
 
 Check that all elements from rule are present in value.
 
-## $size
+## \$size
 
 Check that array or string have needed length
 
-## $elemMatch
+## \$elemMatch
 
 Apply some rule to array elements
 
@@ -133,34 +138,40 @@ import { makeQueryFilter } from 'array-aggregate'
 const secondQuery = makeQueryFilter({
   foo: {
     $eq: 'bar',
-    $exists: true
+    $exists: true,
   },
   createdAt,
   ololo: {
     a: {
-      $exists: false
-    }
+      $exists: false,
+    },
   },
   a: {
     b: {
       c: {
-        $lte: 1
-      }
-    }
+        $lte: 1,
+      },
+    },
   },
-  'a[0].b.c': { // We can use path for accesing fields with index selection if it's needed
-    $gte: 1
-  }
+  'a[0].b.c': {
+    // We can use path for accesing fields with index selection if it's needed
+    $gte: 1,
+  },
 })
 
-console.log(secondQuery.match({
-  foo: ['bar', 'test'],
-  createdAt,
-  a: [{
-    b: [{
-      c: 1
-    }]
-  }]
-})) // true
-
+console.log(
+  secondQuery.match({
+    foo: ['bar', 'test'],
+    createdAt,
+    a: [
+      {
+        b: [
+          {
+            c: 1,
+          },
+        ],
+      },
+    ],
+  }),
+) // true
 ```
