@@ -1,5 +1,3 @@
-/** @flow */
-
 type Query = {
   [key: string]: 1 | -1
 }

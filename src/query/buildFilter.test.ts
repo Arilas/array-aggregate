@@ -1,4 +1,3 @@
-/** @flow */
 import { buildFilter, operatorsFlow, Schema } from './buildFilter'
 
 const createdAt = new Date()

@@ -1,5 +1,3 @@
-/** @flow */
-
 import { Match } from '../createMatcher'
 
 export function size<T extends { length?: number; size?: number }>(

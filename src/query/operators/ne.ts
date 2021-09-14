@@ -13,5 +13,6 @@ export function ne(
   // @ts-ignore
   const equals = eq(rule)
   return (value: string | number | Date | (string | number | Date)[]) =>
+    // @ts-ignore
     !equals(value)
 }

@@ -1,4 +1,3 @@
-/** @flow */
 import { fieldSelector } from './fieldSelector'
 
 const simpleState = {

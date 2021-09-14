@@ -1,4 +1,3 @@
-/** @flow */
 import { Matcher, Match } from '../createMatcher'
 
 // TODO: $elemMatch support

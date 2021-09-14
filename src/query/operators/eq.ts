@@ -2,6 +2,7 @@ const flattenValue = (value: any[] | any[][]): any[] =>
   []
     // @ts-ignore
     .concat([value.filter((item) => !Array.isArray(item))])
+    // @ts-ignore
     .concat(...value.filter((item) => Array.isArray(item)).map(flattenValue))
 
 export function eq(rule: Date): (value: Date | string) => boolean

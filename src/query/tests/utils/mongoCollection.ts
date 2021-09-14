@@ -19,6 +19,7 @@ export async function wrapMongoCollection<T extends { _id?: any }>(
   // await db
   const collection: ICollection<T> = db.get(collectionName)
   await collection.bulkWrite(
+    // @ts-ignore
     data.map((item: T) => ({
       insertOne: {
         document: item,

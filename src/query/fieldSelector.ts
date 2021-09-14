@@ -1,5 +1,3 @@
-/** @flow */
-
 export type FieldSelector = Generator<any, void, void>
 
 export interface ContextType {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-/** @flow */
+
 import { createMatcher, Matcher, createAllMatcher } from './createMatcher'
 import { fieldSelector } from './fieldSelector'
 
@@ -78,45 +78,49 @@ export type Schema = Partial<{ [key in Operands]: SchemaPart & Schema }> & {
 
 // const flow = cond([[isOperand, cond([[isLogical, (head, value) => {}]])]])
 
-const setInSchema = (val: () => SchemaPart = () => ({})) => (
-  operand: Operands,
-  value: any,
-  schema: Schema,
-  key: string | undefined,
-): [Operands, any, Schema, string | undefined] => {
-  // @ts-ignore
-  schema[operand] = val()
-  // @ts-ignore
-  schema[operand].$_Val = value
-  // @ts-ignore
-  schema[operand].$_Field = key
-  // @ts-ignore
-  schema[operand].$_SchemaKey = operand
-
-  return [operand, value, schema, key]
-}
-
-const makeMatcher = (
-  maker: (
-    operand: any,
+const setInSchema =
+  (val: () => SchemaPart = () => ({})) =>
+  (
+    operand: Operands,
     value: any,
     schema: Schema,
     key: string | undefined,
-  ) => Matcher<any>,
-) => (operand: any, value: any, schema: Schema, key: string | undefined) => {
-  try {
-    const matcher = maker(operand, value, schema, key)
-    if (!schema.hasOwnProperty(operand)) {
-      throw new Error(`Matcher wrongly registered`)
-    }
+  ): [Operands, any, Schema, string | undefined] => {
     // @ts-ignore
-    schema[operand].$_Matcher = matcher
-    return matcher
-  } catch (err) {
-    console.log(err, operand, value, key, schema)
-    throw err
+    schema[operand] = val()
+    // @ts-ignore
+    schema[operand].$_Val = value
+    // @ts-ignore
+    schema[operand].$_Field = key
+    // @ts-ignore
+    schema[operand].$_SchemaKey = operand
+
+    return [operand, value, schema, key]
   }
-}
+
+const makeMatcher =
+  (
+    maker: (
+      operand: any,
+      value: any,
+      schema: Schema,
+      key: string | undefined,
+    ) => Matcher<any>,
+  ) =>
+  (operand: any, value: any, schema: Schema, key: string | undefined) => {
+    try {
+      const matcher = maker(operand, value, schema, key)
+      if (!schema.hasOwnProperty(operand)) {
+        throw new Error(`Matcher wrongly registered`)
+      }
+      // @ts-ignore
+      schema[operand].$_Matcher = matcher
+      return matcher
+    } catch (err) {
+      console.log(err, operand, value, key, schema)
+      throw err
+    }
+  }
 
 const ruleIsArray = (operand: Operands, value: any) => {
   return Array.isArray(value)

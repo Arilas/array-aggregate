@@ -1,6 +1,6 @@
 {
   "name": "array-aggregate",
-  "version": "0.2.0-next.1",
+  "version": "1.0.0-next.1",
   "description": "Mongo-like aggregate for arrays",
   "main": "lib/index.js",
   "scripts": {

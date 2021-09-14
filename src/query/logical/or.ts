@@ -1,4 +1,3 @@
-/** @flow */
 import { Matcher, Match } from '../createMatcher'
 
 export function or<T>(matchers: Array<Matcher<T>>): Match<T> {

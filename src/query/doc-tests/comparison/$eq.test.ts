@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-/** @flow */
+
 import { wrapCollection, FakeCollection } from '../../../wrapCollection'
 import { wrapMongoCollection } from '../../tests/utils/mongoCollection'
 

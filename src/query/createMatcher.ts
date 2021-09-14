@@ -1,5 +1,3 @@
-/** @flow */
-
 export type Matcher<T> = {
   match(ctx: T): boolean
   schema?: Record<string, any>

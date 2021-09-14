@@ -1,4 +1,3 @@
-/** @flow */
 import { buildSort } from './buildSort'
 
 let id = 0

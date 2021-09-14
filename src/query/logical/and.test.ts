@@ -1,4 +1,3 @@
-/** @flow */
 import { Matcher } from '../createMatcher'
 import { and } from './and'
 

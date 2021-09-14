@@ -12,14 +12,14 @@ export function composeArgs<
   A extends any[],
   B extends any[],
   C extends any[],
-  D
+  D,
 >(f2: Func<C, D>, f1: Func<B, C>, f0: Func<A, B>): (...ctx: A) => D
 export function composeArgs<
   A extends any[],
   B extends any[],
   C extends any[],
   D extends any[],
-  E
+  E,
 >(
   f3: Func<D, E>,
   f2: Func<C, D>,
@@ -32,7 +32,7 @@ export function composeArgs<
   C extends any[],
   D extends any[],
   E extends any[],
-  F
+  F,
 >(
   f4: Func<E, F>,
   f3: Func<D, E>,

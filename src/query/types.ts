@@ -12,8 +12,7 @@ export type Query<T extends object = {}, K = keyof T> = {
     : Required<T>[key] extends any[]
     ? SimpleEqValidation
     : null
-} &
-  RootQuerySelector<T>
+} & RootQuerySelector<T>
 
 export type RootQuerySelector<T extends object> = {
   $and?: Query<T>[]
