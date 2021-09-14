@@ -51,12 +51,13 @@ export function eq(
         // @ts-ignore
         return value.valueOf() === rule.valueOf()
       } else {
-        return new Date(value).valueOf() === rule.valueOf()
+        return value && new Date(value).valueOf() === rule.valueOf()
       }
     }
   }
   if (rule instanceof RegExp) {
-    return (value: string | number) => (rule as RegExp).test(value.toString())
+    return (value: string | number) =>
+      value && (rule as RegExp).test(value.toString())
   }
   return (value: string | number | Date | (string | number | Date)[]) => {
     if (Array.isArray(value)) {

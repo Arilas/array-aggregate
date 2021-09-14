@@ -1,15 +1,20 @@
 export type SimpleType = string | number | Date | boolean
 
 export type Query<T extends object = {}, K = keyof T> = {
-  [key in keyof T]?: Required<T>[key] extends SimpleType
+  [key in keyof T]?: NonNullable<Required<T>>[key] extends SimpleType
     ? SimpleEqValidation
-    : Required<T>[key] extends (string | number | Date | SimpleType[])[]
+    : NonNullable<Required<T>>[key] extends (
+        | string
+        | number
+        | Date
+        | SimpleType[]
+      )[]
     ? SimpleArrayValidation
-    : Required<T>[key] extends object[]
-    ? ArrayValidation<Required<T>[key][0]>
-    : Required<T>[key] extends object
-    ? Query<Required<T>[key]>
-    : Required<T>[key] extends any[]
+    : NonNullable<Required<T>>[key] extends object[]
+    ? ArrayValidation<NonNullable<Required<T>>[key][0]>
+    : NonNullable<Required<T>>[key] extends object
+    ? Query<NonNullable<Required<T>>[key]>
+    : NonNullable<Required<T>>[key] extends any[]
     ? SimpleEqValidation
     : null
 } & RootQuerySelector<T>
