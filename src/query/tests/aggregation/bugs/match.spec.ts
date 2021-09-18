@@ -109,6 +109,7 @@ describe('query:tests:aggregation:bugs', () => {
     await coll.insert({ _id: 3, a: 0 })
 
     expect(
+      // @ts-ignore
       await coll.find({
         a: null,
       }),

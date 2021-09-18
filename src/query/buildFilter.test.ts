@@ -56,6 +56,7 @@ it('should work with simple schema', () => {
     ],
   }
   const filterFn = buildFilterDev<typeof demoObj>(
+    // @ts-ignore
     secondQuery,
     undefined,
     schema,

@@ -7,7 +7,7 @@ import { Query } from './query/types'
 export type FakeCollection<T extends { _id?: string | number }> = {
   _get(id: T['_id']): T & { _id: T['_id'] }
   find(query: Query<T>): Promise<Array<T>>
-  schema(query: Record<string, any>): Promise<Record<string, any> | undefined>
+  schema(query: Query<T>): Promise<Record<string, any> | undefined>
   drop(): Promise<any>
   insert(doc: T): Promise<InsertManyResult<T & { _id: T['_id'] }>>
   remove(query: Query<T>): Promise<DeleteResult>
@@ -28,10 +28,10 @@ export function wrapCollection<T extends { _id?: string | number }>(
       return map[id]
     },
     find(query) {
-      return Promise.resolve(collection.filter(buildFilter(query).match))
+      return Promise.resolve(collection.filter(buildFilter<T>(query).match))
     },
     schema(query) {
-      return Promise.resolve(buildFilterDev(query).schema)
+      return Promise.resolve(buildFilterDev<T>(query).schema)
     },
     drop() {
       return Promise.resolve()

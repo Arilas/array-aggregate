@@ -1,0 +1,107 @@
+export type SimpleType = string | number | Date | boolean
+
+export type BaseQuery<R = {}> = {
+  [key in keyof R]?: Condition<R[key]>
+}
+
+export type Condition<T> =
+  | SimpleEqValidation<T>
+  | SimpleArrayValidation<T>
+  | ArrayValidation<T>
+  | Query<T>
+  | null
+
+type RequiredNonNulable<T> = {
+  [P in keyof T]-?: NonNullable<T[P]>
+}
+
+export type Query<T = {}, R = RequiredNonNulable<T>> = BaseQuery<R> &
+  RootQuerySelector<R>
+
+// This is a workaround to fix TSC to even transpile this
+export interface RootBaseQuery<T> {
+  $and?: BaseQuery<T>[]
+  $or?: BaseQuery<T>[]
+  $nor?: BaseQuery<T>[]
+}
+
+export interface RootQuerySelector<T> {
+  $and?: Query<T>[]
+  $nor?: Query<T>[]
+  $or?: Query<T>[]
+  $comment?: string
+  [key: string]: any
+}
+
+export type ArrayValidation<T = {}> = T extends object[]
+  ? Query<T[0]> & {
+      $not?: Query<T[0]>
+      $and?: Query<T[0]>[]
+      $or?: Query<T[0]>[]
+      $nor?: Query<T[0]>[]
+      $elemMatch?: Query<T[0]>
+    }
+  : never
+
+export type BasicOperators = {
+  $eq?: string | Date | number | RegExp | (string | Date | number | RegExp)[]
+  $gt?: string | Date | number
+  $gte?: string | Date | number
+  $lt?: string | Date | number
+  $lte?: string | Date | number
+  $mod?: [number, number]
+  $in?:
+    | string[]
+    | Date[]
+    | number[]
+    | RegExp[]
+    | (string | Date | number | RegExp)[]
+  $exists?: boolean
+  $nin?:
+    | string[]
+    | Date[]
+    | number[]
+    | RegExp[]
+    | (string | Date | number | RegExp)[]
+  $ne?: string | Date | number | RegExp | (string | Date | number | RegExp)[]
+  $all?: (
+    | string
+    | Date
+    | number
+    | RegExp
+    | (string | Date | number | RegExp)[]
+  )[]
+}
+
+export type SimpleEqValidation<T> = T extends SimpleType
+  ?
+      | string
+      | number
+      | Date
+      | RegExp
+      | boolean
+      | SimpleType[]
+      | (BasicOperators & {
+          $not?: BasicOperators
+          $and?: BasicOperators[]
+          $or?: BasicOperators[]
+          $nor?: BasicOperators[]
+        })
+  : never
+
+export type SimpleArrayValidation<T> = T extends (SimpleType | SimpleType[])[]
+  ?
+      | string
+      | number
+      | Date
+      | RegExp
+      | boolean
+      | SimpleType[]
+      | (BasicOperators & {
+          $not?: BasicOperators
+          $and?: BasicOperators[]
+          $or?: BasicOperators[]
+          $nor?: BasicOperators[]
+          $elemMatch?: SimpleEqValidation<T[0]>
+        })
+  : never
