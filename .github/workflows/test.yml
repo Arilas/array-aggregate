@@ -1,0 +1,40 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:4
+        ports:
+          - 27017:27017
+
+    strategy:
+      matrix:
+        node_version: ['10', '12', '14']
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Prepare env
+        run: |
+          npm i -g yarn codecov
+          yarn install
+      - name: Check types
+        run: yarn dist
+      - name: Lint
+        run: yarn lint
+      - name: Run tests
+        run: yarn test --coverage
+      - name: Upload coverage
+        run: codecov
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+
