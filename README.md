@@ -19,7 +19,7 @@ const filterFn = makeQueryFilter({
 })
 
 console.log(
-  filterFn.match({
+  filterFn({
     tags: ['foo', 'bar', 'etc'],
     history: [
       {
@@ -33,7 +33,7 @@ console.log(
 ) // true
 
 console.log(
-  filterFn.match({
+  filterFn({
     tags: ['foo', 'etc'],
     history: [
       {
@@ -47,7 +47,7 @@ console.log(
 ) // false
 
 console.log(
-  filterFn.match({
+  filterFn({
     tags: ['foo', 'bar', 'etc'],
     history: [
       {
@@ -160,7 +160,7 @@ const secondQuery = makeQueryFilter({
 })
 
 console.log(
-  secondQuery.match({
+  secondQuery({
     foo: ['bar', 'test'],
     createdAt,
     a: [
