@@ -5,25 +5,49 @@ const flattenValue = (value: any[] | any[][]): any[] =>
     // @ts-ignore
     .concat(...value.filter((item) => Array.isArray(item)).map(flattenValue))
 
-export function eq(rule: Date): (value: Date | string) => boolean
-export function eq(rule: string): (value: Date | string) => boolean
-export function eq(rule: number): (value: number | string) => boolean
-export function eq(rule: RegExp): (value: string | number) => boolean
+function isDate(_date: string) {
+  const _regExp = new RegExp(
+    '^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$',
+  )
+  return _regExp.test(_date)
+}
+// @ts-ignore
 export function eq(
-  rule: (string | number | Date)[],
-): (value: (string | Date | number)[]) => boolean
+  rule: (string | number | Date | (string | number | Date)[])[],
+): (value: string | Date | number | (string | Date | number)[]) => boolean
 export function eq(
-  rawRule: string | number | Date | RegExp | (string | number | Date)[],
+  rawRule:
+    | Date
+    | string
+    | number
+    | RegExp
+    | (Date | string | number | RegExp)[],
 ) {
   let rule = rawRule
-  // @ts-ignore
-  if (typeof rule === 'string' && !Number.isNaN(new Date(rawRule).valueOf())) {
-    // @ts-ignore
-    rule = new Date(rawRule)
+
+  if (typeof rule === 'string' && isDate(rule)) {
+    rule = new Date(rule)
   }
+
+  if (rule instanceof Date) {
+    return (val: string | Date | (string | Date)[]) => {
+      const validate = (value: string | Date) => {
+        if (value instanceof Date) {
+          return value.valueOf() === rule.valueOf()
+        } else {
+          return value && new Date(value).valueOf() === rule.valueOf()
+        }
+      }
+      if (Array.isArray(val)) {
+        return val.some(validate)
+      }
+      return validate(val)
+    }
+  }
+
   if (Array.isArray(rule)) {
     // @ts-ignore
-    const rules: ((value: string | number | Date) => boolean)[] = rule.map(eq)
+    const rules = rule.map(eq)
     return (value: (string | number | Date)[]) => {
       if (!value || !Array.isArray(value)) return false
       const flatten = flattenValue(value)
@@ -31,9 +55,8 @@ export function eq(
         (part) =>
           part.length == rules.length &&
           rules
-            .map((check: (value: string | number | Date) => boolean) =>
-              part.findIndex((val: string | number | Date) => check(val)),
-            )
+            // @ts-ignore
+            .map((check) => part.findIndex((val) => check(val)))
             .reduce(
               (target, index) =>
                 index !== -1 && target !== -1 && index > target ? index : -1,
@@ -44,16 +67,6 @@ export function eq(
   }
   if (rule === null) {
     return (value: any | null) => value == null
-  }
-  if (rule instanceof Date) {
-    return (value: string | Date) => {
-      if (value instanceof Date) {
-        // @ts-ignore
-        return value.valueOf() === rule.valueOf()
-      } else {
-        return value && new Date(value).valueOf() === rule.valueOf()
-      }
-    }
   }
   if (rule instanceof RegExp) {
     return (value: string | number) =>

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { v4 } from 'uuid'
-import { InsertWriteOpResult, WriteOpResult } from 'mongodb'
-import { buildFilter } from './query/buildFilter'
+import { InsertManyResult, DeleteResult, InferIdType } from 'mongodb'
+import { buildFilter, buildFilterDev } from './query/buildFilter'
 import { Query } from './query/types'
 
 export type FakeCollection<T extends { _id?: string | number }> = {
@@ -9,8 +9,8 @@ export type FakeCollection<T extends { _id?: string | number }> = {
   find(query: Query<T>): Promise<Array<T>>
   schema(query: Record<string, any>): Promise<Record<string, any> | undefined>
   drop(): Promise<any>
-  insert(doc: T): Promise<InsertWriteOpResult<T & { _id: T['_id'] }>>
-  remove(query: Query<T>): Promise<WriteOpResult>
+  insert(doc: T): Promise<InsertManyResult<T & { _id: T['_id'] }>>
+  remove(query: Query<T>): Promise<DeleteResult>
 }
 
 export function wrapCollection<T extends { _id?: string | number }>(
@@ -31,7 +31,7 @@ export function wrapCollection<T extends { _id?: string | number }>(
       return Promise.resolve(collection.filter(buildFilter(query).match))
     },
     schema(query) {
-      return Promise.resolve(buildFilter(query).schema)
+      return Promise.resolve(buildFilterDev(query).schema)
     },
     drop() {
       return Promise.resolve()
@@ -45,11 +45,9 @@ export function wrapCollection<T extends { _id?: string | number }>(
       map[docRes._id] = docRes
       collection.push(docRes)
       return Promise.resolve({
+        acknowledged: true,
         insertedCount: 1,
-        ops: [docRes],
-        insertedIds: { 0: docRes._id },
-        connection: 'ok',
-        result: { ok: 1, n: 0 },
+        insertedIds: { 0: docRes._id as InferIdType<T> },
       })
     },
     async remove(query) {
@@ -61,9 +59,8 @@ export function wrapCollection<T extends { _id?: string | number }>(
         {},
       )
       return Promise.resolve({
-        ops: [],
-        connection: 'ok',
-        result: { ok: 1, n: 0 },
+        acknowledged: true,
+        deletedCount: 1,
       })
     },
   }

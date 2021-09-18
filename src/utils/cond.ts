@@ -3,6 +3,9 @@ export type Pair<T extends any[], R> = [
   (...args: T) => R,
 ]
 
+export const T = () => true
+export const F = () => false
+
 export function cond<T extends any[], R>(
   pairs: Pair<T, R>[],
   elsewise?: Pair<T, R>[1],

@@ -12,5 +12,6 @@
     "src/**/*.js.map": true,
     "src/**/*.d.ts": true,
     "src/**/*.d.ts.map": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

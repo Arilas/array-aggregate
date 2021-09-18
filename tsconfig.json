@@ -1,19 +1,8 @@
 {
+  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "lib": [],
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ES2019",
-    "composite": true,
-    "sourceMap": true
-  },
-  "include": ["src"]
+    "module": "esnext",
+    "outDir": "dist/mjs",
+    "target": "esnext"
+  }
 }

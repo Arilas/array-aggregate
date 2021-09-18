@@ -1,4 +1,6 @@
-import { buildFilter, operatorsFlow, Schema } from './buildFilter'
+import { buildFilterDev } from './buildFilter'
+import { operatorsFlowDev } from './flows/operators'
+import { Schema } from './utils/Schema'
 
 const createdAt = new Date()
 
@@ -29,7 +31,7 @@ describe('query:buildFilter', () => {
   describe('operatorsFlow', () => {
     it('should work with logical operators', () => {
       const schema = {}
-      operatorsFlow('$and', [], schema, undefined)
+      operatorsFlowDev('$and', [], schema, undefined)
       expect(schema).toHaveProperty('$and')
       expect(schema).toHaveProperty('$and.$_Val')
       expect(schema).toHaveProperty('$and.$_SchemaKey', '$and')
@@ -53,7 +55,11 @@ it('should work with simple schema', () => {
       },
     ],
   }
-  const filterFn = buildFilter<typeof demoObj>(secondQuery, undefined, schema)
+  const filterFn = buildFilterDev<typeof demoObj>(
+    secondQuery,
+    undefined,
+    schema,
+  )
   expect(schema).toHaveProperty('foo.$eq.$_Val', secondQuery.foo.$eq)
   expect(schema).toHaveProperty('foo.$eq.$_Field', 'foo')
   expect(schema).toHaveProperty('foo.$eq.$_SchemaKey', '$eq')
@@ -99,7 +105,7 @@ it('should work with simple schema', () => {
 })
 
 it('should work with dates', () => {
-  const filterFn = buildFilter<{ createdAt: string | Date }>({
+  const filterFn = buildFilterDev<{ createdAt: string | Date }>({
     createdAt: {
       $gte: new Date('2017-01-01'),
     },
