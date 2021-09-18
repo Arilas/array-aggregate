@@ -1,3 +1,6 @@
+import { Query } from './query/types'
 import { buildFilter } from './query/buildFilter'
 
-export { buildFilter as makeQueryFilter }
+export function makeQueryFilter<T extends object>(query: Query<T>) {
+  return buildFilter<T>(query).match
+}

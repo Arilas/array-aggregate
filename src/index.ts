@@ -1,3 +1,3 @@
-import { makeQueryFilter } from './makeQueryFilter'
-
-export { makeQueryFilter }
+export { makeQueryFilter } from './makeQueryFilter'
+export { buildFilter } from './query/buildFilter'
+export { Query, BaseQuery } from './query/types'

@@ -17,13 +17,13 @@ it('Equivalent to and Operation', () => {
     tags: ['ssl', 'security'],
   }
   const toFail = [{}, { tags: ['ssl'] }, { tags: 'ssl' }, { tags: 1 }]
-  expect(query1.match(objPass)).toBeTruthy()
-  expect(query2.match(objPass)).toBeTruthy()
+  expect(query1(objPass)).toBeTruthy()
+  expect(query2(objPass)).toBeTruthy()
   for (const fail of toFail) {
     // @ts-ignore
-    expect(query1.match(fail)).toBeFalsy()
+    expect(query1(fail)).toBeFalsy()
     // @ts-ignore
-    expect(query2.match(fail)).toBeFalsy()
+    expect(query2(fail)).toBeFalsy()
   }
 })
 
@@ -54,12 +54,12 @@ it('Nested Array', () => {
     },
   ]
   for (const objPass of toPass) {
-    expect(query1.match(objPass)).toBeTruthy()
-    expect(query2.match(objPass)).toBeTruthy()
-    expect(query3.match(objPass)).toBeTruthy()
+    expect(query1(objPass)).toBeTruthy()
+    expect(query2(objPass)).toBeTruthy()
+    expect(query3(objPass)).toBeTruthy()
   }
   expect(
-    query1.match({
+    query1({
       tags: [
         ['ssl', 'sfs'],
         ['asdf', 'security'],
@@ -69,16 +69,16 @@ it('Nested Array', () => {
   const nestedCheck = {
     tags: ['ssl', 'security'],
   }
-  expect(query1.match(nestedCheck)).toBeFalsy()
-  expect(query2.match(nestedCheck)).toBeTruthy()
-  expect(query3.match(nestedCheck)).toBeTruthy()
+  expect(query1(nestedCheck)).toBeFalsy()
+  expect(query2(nestedCheck)).toBeTruthy()
+  expect(query3(nestedCheck)).toBeTruthy()
   for (const fail of toFail) {
     // @ts-ignore
-    expect(query1.match(fail)).toBeFalsy()
+    expect(query1(fail)).toBeFalsy()
     // @ts-ignore
-    expect(query2.match(fail)).toBeFalsy()
+    expect(query2(fail)).toBeFalsy()
     // @ts-ignore
-    expect(query3.match(fail)).toBeFalsy()
+    expect(query3(fail)).toBeFalsy()
   }
 })
 
@@ -128,7 +128,7 @@ it('Use $all to Match Values', () => {
   const query = makeQueryFilter<TestObj>({
     tags: { $all: ['appliance', 'school', 'book'] },
   })
-  const result = inventory.filter(query.match)
+  const result = inventory.filter(query)
   expect(result).toHaveLength(2)
   expect(result[0]).toMatchObject({
     _id: ObjectId('5234cc89687ea597eabee675'),
@@ -161,7 +161,7 @@ it('Use $all with $elemMatch', () => {
       ],
     },
   })
-  const result = inventory.filter(query.match)
+  const result = inventory.filter(query)
   expect(result).toHaveLength(2)
 })
 
@@ -169,8 +169,8 @@ it('$all non-array field', () => {
   const query1 = makeQueryFilter<TestObj>({ 'qty.num': { $all: [50] } })
   const query2 = makeQueryFilter<TestObj>({ 'qty.num': 50 })
 
-  const result1 = inventory.filter(query1.match)
-  const result2 = inventory.filter(query2.match)
+  const result1 = inventory.filter(query1)
+  const result2 = inventory.filter(query2)
   expect(result1).toHaveLength(1)
   expect(result2).toHaveLength(1)
   expect(result1[0]).toEqual(result2[0])

@@ -1,6 +1,6 @@
 export type SimpleType = string | number | Date | boolean
 
-export type Query<T extends object = {}, R = NonNullable<Required<T>>> = {
+export type BaseQuery<R = {}> = {
   [key in keyof R]?: R[key] extends SimpleType
     ? SimpleEqValidation
     : R[key] extends (string | number | Date | SimpleType[])[]
@@ -12,17 +12,31 @@ export type Query<T extends object = {}, R = NonNullable<Required<T>>> = {
     : R[key] extends any[]
     ? SimpleEqValidation
     : null
-} & RootQuerySelector<T>
+}
 
-export type RootQuerySelector<T extends object> = {
-  $and?: Query<T>[]
-  $nor?: Query<T>[]
-  $or?: Query<T>[]
+type RequiredNonNulable<T> = {
+  [P in keyof T]-?: NonNullable<T[P]>
+}
+
+export type Query<T = {}, R = RequiredNonNulable<T>> = BaseQuery<R> &
+  RootQuerySelector<R>
+
+// This is a workaround to fix TSC to even transpile this
+export interface RootBaseQuery<T> {
+  $and?: BaseQuery<T>[]
+  $or?: BaseQuery<T>[]
+  $nor?: BaseQuery<T>[]
+}
+
+export interface RootQuerySelector<T> {
+  $and?: (BaseQuery<T> & RootBaseQuery<T>)[]
+  $nor?: (BaseQuery<T> & RootBaseQuery<T>)[]
+  $or?: (BaseQuery<T> & RootBaseQuery<T>)[]
   $comment?: string
   [key: string]: any
 }
 
-export type ArrayValidation<T extends object> = Query<T> & {
+export type ArrayValidation<T = {}> = Query<T> & {
   $not?: Query<T>
   $and?: Query<T>[]
   $or?: Query<T>[]

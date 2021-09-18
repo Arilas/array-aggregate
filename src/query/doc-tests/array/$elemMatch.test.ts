@@ -11,7 +11,7 @@ it('Element Match', () => {
   const query = makeQueryFilter<TestObj>({
     results: { $elemMatch: { $gte: 80, $lt: 85 } },
   })
-  const result = scores.filter(query.match)
+  const result = scores.filter(query)
   expect(result).toHaveLength(1)
   expect(result[0]).toMatchObject({ _id: 1, results: [82, 85, 88] })
 })
@@ -43,7 +43,7 @@ it('Array of Embedded Documents', () => {
   const query = makeQueryFilter<TestObj>({
     results: { $elemMatch: { product: 'xyz', score: { $gte: 8 } } },
   })
-  const result = survey.filter(query.match)
+  const result = survey.filter(query)
   expect(result).toHaveLength(1)
   expect(result[0]).toMatchObject({
     _id: 3,
@@ -59,8 +59,8 @@ it('Single Query Condition', () => {
     results: { $elemMatch: { product: 'xyz' } },
   })
   const query2 = makeQueryFilter<TestObj>({ 'results.product': 'xyz' })
-  const result1 = survey.filter(query1.match)
-  const result2 = survey.filter(query2.match)
+  const result1 = survey.filter(query1)
+  const result2 = survey.filter(query2)
   expect(result1).toHaveLength(3)
   expect(result2).toHaveLength(3)
 })
