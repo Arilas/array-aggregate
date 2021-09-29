@@ -1,6 +1,6 @@
 {
   "name": "array-aggregate",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "description": "Mongo-like aggregate for arrays",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
