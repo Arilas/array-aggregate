@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export interface Document {}
 export type Query<TSchema> = {
   [P in keyof TSchema]?: Condition<TSchema[P]>
@@ -17,9 +17,8 @@ export type Condition<T> =
  * array types can be searched using their element type
  * @public
  */
-export type AlternativeType<T> = T extends ReadonlyArray<infer U>
-  ? T | RegExpOrString<U>
-  : RegExpOrString<T>
+export type AlternativeType<T> =
+  T extends ReadonlyArray<infer U> ? T | RegExpOrString<U> : RegExpOrString<T>
 
 /** @public */
 export type RegExpOrString<T> = T extends string ? RegExp | RegExp | T : T
@@ -116,6 +115,6 @@ export const BSONType = Object.freeze({
 } as const)
 
 /** @public */
-export type BSONType = typeof BSONType[keyof typeof BSONType]
+export type BSONType = (typeof BSONType)[keyof typeof BSONType]
 /** @public */
 export type BSONTypeAlias = keyof typeof BSONType

@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import Monk, { ICollection } from 'monk'
-import { lorem } from 'faker'
+import { faker } from '@faker-js/faker'
 
 type FakeGetter<T extends { _id?: any }> = {
   _get(id: any): T
@@ -13,8 +12,8 @@ export async function wrapMongoCollection<T extends { _id?: any }>(
     (target, item) => Object.assign(target, { [item._id]: item }),
     {},
   )
-  const dbName = lorem.word()
-  const collectionName = lorem.word()
+  const dbName = faker.lorem.word()
+  const collectionName = faker.lorem.word()
   const db = Monk(`localhost/${dbName}`)
   // await db
   const collection: ICollection<T> = db.get(collectionName)

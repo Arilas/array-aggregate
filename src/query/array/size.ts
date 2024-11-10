@@ -7,6 +7,6 @@ export function size<T extends { length?: number; size?: number }>(
     Array.isArray(value)
       ? value.length === rule
       : value && value.size
-      ? value.size === rule
-      : false
+        ? value.size === rule
+        : false
 }

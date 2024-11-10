@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-
 import { wrapCollection, FakeCollection } from '../../../wrapCollection'
 import { wrapMongoCollection } from '../../tests/utils/mongoCollection'
 
 // @ts-ignore
 let collections: {
-  fake: FakeCollection<typeof items[0]>
-  real: FakeCollection<typeof items[0]>
+  fake: FakeCollection<(typeof items)[0]>
+  real: FakeCollection<(typeof items)[0]>
 } = {}
 
 const items = [
@@ -102,5 +100,7 @@ test.each(['fake', 'real'])(
 )
 
 afterAll(async () => {
-  collections.real && (await collections.real.drop())
+  if (collections.real) {
+    await collections.real.drop()
+  }
 })

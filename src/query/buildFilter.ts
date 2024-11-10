@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { createMatcher, Matcher } from './createMatcher'
 import { fieldSelector } from './fieldSelector'
 

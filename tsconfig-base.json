@@ -4,7 +4,7 @@
     "baseUrl": "src",
     "declaration": true,
     "inlineSourceMap": false,
-    "lib": ["esnext"],
+    "lib": ["ES2022"],
     "listEmittedFiles": false,
     "listFiles": false,
     "moduleResolution": "node",

@@ -1,4 +1,4 @@
-import { Matcher, Match } from '../createMatcher'
+import { Match } from '../createMatcher'
 
 export function mod<T extends number>([divisor, remainder]: [
   number,

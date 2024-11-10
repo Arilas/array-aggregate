@@ -1,4 +1,3 @@
-/* eslint-disable import/export */
 export function gt(rawRule: Date): (value: Date | string) => boolean
 export function gt(rawRule: string): (value: Date | string) => boolean
 export function gt(rawRule: number): (value: number | string) => boolean
@@ -8,6 +7,15 @@ export function gt(rawRule: string | number | Date) {
   // Handling correctly formed dates
   if (typeof rule === 'string' && !Number.isNaN(new Date(rawRule).valueOf())) {
     rule = new Date(rawRule)
+  } else if (
+    typeof rule === 'number' &&
+    !Number.isNaN(new Date(rawRule).valueOf())
+  ) {
+    rule = new Date(rawRule)
+  } else if (typeof rule === 'string' && !Number.isNaN(parseFloat(rule))) {
+    rule = parseFloat(rule)
+  } else if (typeof rule === 'string' && !Number.isNaN(parseInt(rule))) {
+    rule = parseInt(rule)
   }
   if (rule instanceof Date) {
     return (value: string | Date) => {
@@ -19,8 +27,18 @@ export function gt(rawRule: string | number | Date) {
     }
   }
   if (typeof rule === 'number') {
-    return (value: number | string) =>
-      typeof value === 'number' ? value > rule : parseFloat(value) > rule
+    return (value: string | number) => {
+      if (typeof value === 'string' && !Number.isNaN(parseFloat(value))) {
+        return parseFloat(value) > rule
+      } else if (typeof value === 'string' && !Number.isNaN(parseInt(value))) {
+        return parseInt(value) > rule
+      } else {
+        return (value as number) > rule
+      }
+    }
   }
-  return (value: any) => value > rule
+  return (value: number) => {
+    const res = rule.localeCompare(value.toString())
+    return res === -1
+  }
 }

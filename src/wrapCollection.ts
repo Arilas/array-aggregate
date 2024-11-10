@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { v4 } from 'uuid'
 import { InsertManyResult, DeleteResult, InferIdType } from 'mongodb'
 import { buildFilter, buildFilterDev } from './query/buildFilter'
