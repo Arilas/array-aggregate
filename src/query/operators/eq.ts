@@ -1,3 +1,5 @@
+import { isAnyDate } from '../utils/safeDate.js'
+
 const formatToGroups = <T>(value: T[] | T[][]): T[][] =>
   []
     // @ts-ignore
@@ -5,12 +7,6 @@ const formatToGroups = <T>(value: T[] | T[][]): T[][] =>
     // @ts-ignore
     .concat(...value.filter((item) => Array.isArray(item)).map(formatToGroups))
 
-function isDate(_date: string) {
-  const _regExp = new RegExp(
-    '^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$',
-  )
-  return _regExp.test(_date)
-}
 // @ts-ignore
 export function eq(
   rule: (string | number | Date | (string | number | Date)[])[],
@@ -25,7 +21,8 @@ export function eq(
 ) {
   let rule = rawRule
 
-  if (typeof rule === 'string' && isDate(rule)) {
+  if (isAnyDate(rule)) {
+    // @ts-expect-error We are sure that it can be a date
     rule = new Date(rule)
   }
 

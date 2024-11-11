@@ -1,3 +1,5 @@
+import { isAnyDate } from '../../query/utils/safeDate.js'
+
 export function lte(rawRule: Date): (value: Date | number | string) => boolean
 export function lte(rawRule: string): (value: Date | number | string) => boolean
 export function lte(rawRule: number): (value: number | string) => boolean
@@ -5,17 +7,10 @@ export function lte(rawRule: number): (value: number | string) => boolean
 export function lte(rawRule: string | number | Date) {
   let rule = rawRule
   // Handling correctly formed dates
-  if (typeof rule === 'string' && !Number.isNaN(new Date(rawRule).valueOf())) {
-    rule = new Date(rawRule)
-  } else if (
-    typeof rule === 'number' &&
-    !Number.isNaN(new Date(rawRule).valueOf())
-  ) {
+  if (isAnyDate(rule)) {
     rule = new Date(rawRule)
   } else if (typeof rule === 'string' && !Number.isNaN(parseFloat(rule))) {
     rule = parseFloat(rule)
-  } else if (typeof rule === 'string' && !Number.isNaN(parseInt(rule))) {
-    rule = parseInt(rule)
   }
   if (rule instanceof Date) {
     return (value: string | Date) => {
@@ -30,8 +25,6 @@ export function lte(rawRule: string | number | Date) {
     return (value: string | number) => {
       if (typeof value === 'string' && !Number.isNaN(parseFloat(value))) {
         return parseFloat(value) <= rule
-      } else if (typeof value === 'string' && !Number.isNaN(parseInt(value))) {
-        return parseInt(value) <= rule
       } else {
         return (value as number) <= rule
       }
