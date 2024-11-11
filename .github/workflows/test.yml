@@ -34,6 +34,11 @@ jobs:
         run: yarn lint
       - name: Run tests
         run: yarn test --coverage --reporter=junit --reporter=default
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
         env:
