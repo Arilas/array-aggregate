@@ -1,3 +1,5 @@
+import { it, expect } from 'vitest'
+
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
 const ObjectId = (val: any) => val

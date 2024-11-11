@@ -21,7 +21,7 @@ export const flow = cond([
 
 export function buildFilterDev<T extends object = {}>(
   query: Query<T>,
-  key?: string | undefined,
+  key?: string,
   schema: Schema = {},
 ): Matcher<T> {
   const matchers = Object.keys(query).map((operand) => {
@@ -38,7 +38,7 @@ export function buildFilterDev<T extends object = {}>(
 
 export function buildFilter<T extends object = {}>(
   query: Query<T>,
-  key?: string | undefined,
+  key?: string,
 ): Matcher<T> {
   const matchers = Object.keys(query).map((operand) => {
     const part = query[operand]

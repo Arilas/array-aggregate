@@ -12,6 +12,7 @@ export const elementFlowDev = composeArgs(
       rule: any,
       schema: Schema,
       key: string | undefined,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     ) => createMatcher(element[operator](rule), fieldSelector(key)),
   ),
   setInSchema(),
@@ -19,5 +20,6 @@ export const elementFlowDev = composeArgs(
 
 export const elementFlow = makeMatcher(
   (operator: ElementOperands, rule: any, key: string | undefined) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     createMatcher(element[operator](rule), fieldSelector(key)),
 )

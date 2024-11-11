@@ -15,6 +15,7 @@ export const elemMatchFlowDev = composeArgs(
       key: string | undefined,
     ) =>
       createMatcher(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         array[operator](buildFilterDev(rule, undefined, schema[operator])),
         fieldSelector(key),
       ),
@@ -24,5 +25,6 @@ export const elemMatchFlowDev = composeArgs(
 
 export const elemMatchFlow = makeMatcher(
   (operator: ArrayOperands, rule: any, key: string | undefined) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     createMatcher(array[operator](buildFilter(rule)), fieldSelector(key)),
 )

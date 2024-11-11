@@ -5,7 +5,7 @@ export interface ContextType {
 }
 
 export function fieldSelector(
-  fieldDescription: string | undefined,
+  fieldDescription?: string,
 ): (ctx: ContextType) => FieldSelector {
   const parts = fieldDescription ? fieldDescription.split('.') : []
   return function* (ctx) {
@@ -22,18 +22,37 @@ export function fieldSelector(
       } else if (part.indexOf('[') !== -1) {
         //TODO: Implement multiple arrays
         const [key, index] = part.replace(']', '').split('[')
-        if (Array.isArray(current[key]) && current[key][parseInt(index)]) {
-          yield* goDeep(current[key][parseInt(index)], parts)
+        const idx = parseInt(index, 10)
+        const potentialArray =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (current && key in current ? current[key] : undefined) as
+            | any[]
+            | undefined
+        if (
+          key in current &&
+          Array.isArray(potentialArray) &&
+          potentialArray[idx]
+        ) {
+          yield* goDeep(potentialArray[idx], parts)
         } else {
           yield undefined
         }
-      } else if (Array.isArray(current[part]) && parts.length) {
+      } else if (
+        part in current &&
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        Array.isArray(current[part]) &&
+        parts.length
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         for (const item of current[part]) {
           yield* goDeep(item, parts)
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       } else if (!parts.length || !current.hasOwnProperty(part)) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         yield current[part]
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         yield* goDeep(current[part], parts)
       }
     }

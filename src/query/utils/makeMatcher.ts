@@ -21,10 +21,12 @@ export const makeDevMatcher =
   (operand: any, value: any, schema: Schema, key: string | undefined) => {
     try {
       const matcher = maker(operand, value, schema, key)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       if (!schema.hasOwnProperty(operand)) {
         throw new Error(`Matcher wrongly registered`)
       }
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       schema[operand].$_Matcher = matcher
       return matcher
     } catch (err) {

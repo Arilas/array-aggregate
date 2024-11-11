@@ -1,3 +1,4 @@
+import { it, expect } from 'vitest'
 import { or } from './or'
 import { Matcher } from '../createMatcher'
 

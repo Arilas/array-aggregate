@@ -25,6 +25,7 @@ export const logicalFlowDev = cond([
           const matchers = rule.map((line) => {
             const lineSchema = {}
             part.push(lineSchema)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             return buildFilterDev(line, undefined, lineSchema)
           })
           return createMatcher(logical[operator](matchers), fieldSelector(key))
@@ -65,6 +66,7 @@ export const logicalFlowDev = cond([
             ) =>
               createMatcher(
                 logical[operator](
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                   buildFilterDev(rule, undefined, schema[operator]),
                 ),
                 fieldSelector(key),
@@ -83,6 +85,7 @@ export const logicalFlow = cond([
     makeMatcher(
       (operator: LogicalOperands, rule: any[], key: string | undefined) => {
         const matchers = rule.map((line) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           return buildFilter(line)
         })
         return createMatcher(logical[operator](matchers), fieldSelector(key))
@@ -110,6 +113,7 @@ export const logicalFlow = cond([
           makeMatcher(
             (operator: LogicalOperands, rule: any, key: string | undefined) =>
               createMatcher(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 logical[operator](buildFilter(rule)),
                 fieldSelector(key),
               ),

@@ -1,4 +1,4 @@
-import { describe, it } from '@jest/globals'
+import { describe, it, expect } from 'vitest'
 import { comparators } from './comparators'
 import { Ratio } from './Ratio'
 import { Types } from './Types'

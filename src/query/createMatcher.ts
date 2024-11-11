@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 export type Matcher<T> = {
-  match(ctx: T): boolean
+  match(this: void, ctx: T): boolean
   schema?: Record<string, any>
 }
 
 export type Match<T> = (value: T) => boolean
 
 export function createMatcher<T>(
-  resolver: Function,
+  resolver: (value: any) => boolean,
   fieldResolver: (ctx: T) => Generator,
 ): Matcher<T> {
   return {
@@ -24,7 +23,7 @@ export function createMatcher<T>(
 }
 
 export function createAllMatcher<T>(
-  resolver: Function,
+  resolver: (value: any) => boolean,
   fieldResolver: (ctx: T) => Generator,
 ): Matcher<T> {
   return {
@@ -37,7 +36,6 @@ export function createAllMatcher<T>(
         }
       }
 
-      // @ts-ignore
       return fields.length > 1 ? resolver(fields) : false
     },
   }

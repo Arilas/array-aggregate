@@ -1,9 +1,9 @@
-const flattenValue = (value: any[] | any[][]): any[] =>
+const formatToGroups = <T>(value: T[] | T[][]): T[][] =>
   []
     // @ts-ignore
     .concat([value.filter((item) => !Array.isArray(item))])
     // @ts-ignore
-    .concat(...value.filter((item) => Array.isArray(item)).map(flattenValue))
+    .concat(...value.filter((item) => Array.isArray(item)).map(formatToGroups))
 
 function isDate(_date: string) {
   const _regExp = new RegExp(
@@ -50,7 +50,7 @@ export function eq(
     const rules = rule.map(eq)
     return (value: (string | number | Date)[]) => {
       if (!value || !Array.isArray(value)) return false
-      const flatten = flattenValue(value)
+      const flatten = formatToGroups(value)
       return flatten.some(
         (part) =>
           part.length == rules.length &&
@@ -66,11 +66,11 @@ export function eq(
     }
   }
   if (rule === null) {
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
     return (value: any | null) => value == null
   }
   if (rule instanceof RegExp) {
-    return (value: string | number) =>
-      value && (rule as RegExp).test(value.toString())
+    return (value: string | number) => value && rule.test(value.toString())
   }
   return (value: string | number | Date | (string | number | Date)[]) => {
     if (Array.isArray(value)) {

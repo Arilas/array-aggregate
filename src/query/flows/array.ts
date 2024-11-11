@@ -28,6 +28,7 @@ export const arrayFlowDev = composeArgs(
         if (isSimpleValue(item)) {
           // @ts-ignore
           lineSchema.$eq = {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             $_Val: item,
             $_Field: key,
             $_SchemaKey: undefined,
@@ -43,6 +44,7 @@ export const arrayFlowDev = composeArgs(
           lineSchema.$eq.$_Matcher = matcher
           return matcher
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           return buildFilterDev(item, undefined, lineSchema)
         }
       })
@@ -61,6 +63,7 @@ export const arrayFlow = makeMatcher(
       if (isSimpleValue(item)) {
         return createMatcher(operators.$eq(item), fieldSelector(undefined))
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return buildFilter(item)
       }
     })

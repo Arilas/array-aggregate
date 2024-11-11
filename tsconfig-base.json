@@ -9,6 +9,7 @@
     "listFiles": false,
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
     "pretty": true,
     "rootDir": "src",
     "skipDefaultLibCheck": true,
@@ -16,7 +17,7 @@
     "skipLibCheck": true,
     "strict": true,
     "traceResolution": false,
-    "types": ["jest"]
+    "types": []
   },
   "compileOnSave": false,
   "exclude": ["node_modules", "dist"],

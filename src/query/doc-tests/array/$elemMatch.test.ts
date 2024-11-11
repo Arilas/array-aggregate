@@ -1,3 +1,5 @@
+import { it, expect } from 'vitest'
+
 import { makeQueryFilter } from '../../../makeQueryFilter'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

@@ -1,5 +1,6 @@
 import { Types } from './Types'
 
+// eslint-disable-next-line @typescript-eslint/unbound-method
 export const toString = Object.prototype.toString
 
 export function isDate(_date: string) {

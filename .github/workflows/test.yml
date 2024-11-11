@@ -25,6 +25,7 @@ jobs:
       - name: Prepare env
         run: |
           npm i -g yarn codecov
+          corepack enable
           yarn install
       - name: Check types
         run: yarn dist

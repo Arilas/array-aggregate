@@ -21,7 +21,7 @@ export type AlternativeType<T> =
   T extends ReadonlyArray<infer U> ? T | RegExpOrString<U> : RegExpOrString<T>
 
 /** @public */
-export type RegExpOrString<T> = T extends string ? RegExp | RegExp | T : T
+export type RegExpOrString<T> = T extends string ? RegExp | T : T
 
 /** @public */
 export interface RootFilterOperators<TSchema> extends Document {
@@ -64,7 +64,7 @@ export interface FilterOperators<TValue> extends Document {
   $expr?: Record<string, any>
   $jsonSchema?: Record<string, any>
   $mod?: TValue extends number ? [number, number] : never
-  $regex?: TValue extends string ? RegExp | RegExp | string : never
+  $regex?: TValue extends string ? RegExp | string : never
   $options?: TValue extends string ? string : never
   // Geospatial
   $geoIntersects?: { $geometry: Document }

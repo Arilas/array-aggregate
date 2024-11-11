@@ -1,3 +1,5 @@
+import { it, expect } from 'vitest'
+
 import { gt } from './gt'
 
 const beginDate = new Date('2017-01-01')

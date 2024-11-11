@@ -1,3 +1,5 @@
+import { it, expect } from 'vitest'
+
 import { not } from './not'
 import { Matcher } from '../createMatcher'
 

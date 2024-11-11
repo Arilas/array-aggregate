@@ -1,3 +1,4 @@
+import { it, expect } from 'vitest'
 import { inFn } from './in'
 
 const beginFnDate = new Date('2017-01-01')

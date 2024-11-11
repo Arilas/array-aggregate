@@ -15,7 +15,7 @@ export type FakeCollection<T extends { _id?: string | number }> = {
 export function wrapCollection<T extends { _id?: string | number }>(
   rawCollection: T[],
 ): FakeCollection<T> {
-  let collection: T[] = JSON.parse(JSON.stringify(rawCollection))
+  let collection: T[] = JSON.parse(JSON.stringify(rawCollection)) as T[]
   let map: { [key: string]: T & { _id: T['_id'] } } = collection.reduce(
     // @ts-ignore
     (target, item) => Object.assign(target, { [item._id]: item }),
@@ -24,6 +24,7 @@ export function wrapCollection<T extends { _id?: string | number }>(
   return {
     _get(id) {
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return map[id]
     },
     find(query) {
@@ -36,6 +37,7 @@ export function wrapCollection<T extends { _id?: string | number }>(
       return Promise.resolve()
     },
     insert(rawDoc: T) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const docRes: T & { _id: T['_id'] } = JSON.parse(JSON.stringify(rawDoc))
       if (!docRes.hasOwnProperty('_id')) {
         docRes._id = v4()

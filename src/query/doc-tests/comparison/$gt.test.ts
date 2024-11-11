@@ -1,3 +1,5 @@
+import { it, expect } from 'vitest'
+
 import { wrapCollection } from '../../../wrapCollection'
 
 const inventory = wrapCollection([

@@ -37,6 +37,7 @@ export function buildSort<T extends object>(query: Sort<T>) {
           } else {
             // @ts-ignore
             const result = comparators[type1](value1, value2, direction)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
             if (result !== Ratio.Same) {
               return result
             }

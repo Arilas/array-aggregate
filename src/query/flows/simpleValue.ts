@@ -13,6 +13,7 @@ export const value2FlowDev = makeDevMatcher(
       schema[operator] = {
         // @ts-ignore
         $eq: {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           $_Val: rule,
           $_Field: composeKey(key, operator),
         },
@@ -28,6 +29,7 @@ export const value2FlowDev = makeDevMatcher(
       // @ts-ignore
       schema[operator] = {}
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return buildFilterDev(rule, composeKey(key, operator), schema[operator])
     }
   },
@@ -42,6 +44,7 @@ export const value2Flow = makeMatcher(
       )
     } else {
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return buildFilter(rule, composeKey(key, operator))
     }
   },

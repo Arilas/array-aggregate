@@ -61,7 +61,7 @@ export const comparators = {
     }
     return Ratio.Same
   },
-  [Types.Array]: (value1: any[], value2: any[], direction: Ratio): Ratio => {
+  [Types.Array]: <T>(value1: T[], value2: T[], direction: Ratio): Ratio => {
     const smallest1 = findSmallestInArray(value1, direction)
     const smallest2 = findSmallestInArray(value2, direction)
     if (smallest1 === smallest2) {
@@ -86,6 +86,7 @@ export const comparators = {
           return direction
         }
         // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         const result: Ratio = comparators[type](
           // @ts-ignore
           value1[key],
@@ -135,8 +136,8 @@ export function makeListOfColumns(...objs: object[]) {
   return result
 }
 
-export function findSmallestInArray(arr: any[], direction: Ratio) {
-  return arr.reduce((target: any, item: any) => {
+export function findSmallestInArray<T>(arr: T[], direction: Ratio): T {
+  return arr.reduce((target: T, item: any) => {
     if (item === target) {
       return target
     }
@@ -144,18 +145,22 @@ export function findSmallestInArray(arr: any[], direction: Ratio) {
     const typeTarget = detectType(target)
     if (type === typeTarget) {
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const result = comparators[type](item, target, direction)
       if (result === 0) {
         return target
       } else if (result === 1) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return item
       } else {
         return target
       }
     }
-    if (direction == 1 && type > typeTarget) {
+    if (direction == Ratio.Greater && type > typeTarget) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return item
-    } else if (direction == -1 && type < typeTarget) {
+    } else if (direction == Ratio.Less && type < typeTarget) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return item
     }
     return target
