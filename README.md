@@ -1,6 +1,7 @@
 # array-aggregate - Mongo-like querying and filtration
 
-![CI](https://github.com/Arilas/array-aggregate/workflows/CI/badge.svg)[![codecov](https://codecov.io/gh/Arilas/array-aggregate/branch/master/graph/badge.svg)](https://codecov.io/gh/Arilas/array-aggregate)
+![CI](https://github.com/Arilas/array-aggregate/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/github/Arilas/array-aggregate/graph/badge.svg?token=KiQzTcSVnY)](https://codecov.io/github/Arilas/array-aggregate)
 
 ## Installation
 
