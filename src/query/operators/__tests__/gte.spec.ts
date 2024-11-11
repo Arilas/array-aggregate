@@ -9,7 +9,6 @@ const endTimestamp = endDate.getTime()
 
 describe('gte', () => {
   it('should work with two dates', () => {
-    console.log('beginDate', beginDate, beginTimestamp)
     expect(gte(beginDate)(endDate)).toBeTruthy()
     expect(gte(endDate)(beginDate)).toBeFalsy()
   })
