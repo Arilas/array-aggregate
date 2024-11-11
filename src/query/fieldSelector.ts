@@ -38,6 +38,7 @@ export function fieldSelector(
           yield undefined
         }
       } else if (
+        typeof current === 'object' &&
         part in current &&
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         Array.isArray(current[part]) &&
