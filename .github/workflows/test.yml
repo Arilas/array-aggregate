@@ -18,13 +18,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
       - name: Prepare env
         run: |
-          npm i -g codecov
           corepack enable
           yarn install
       - name: Check types
@@ -33,9 +34,7 @@ jobs:
         run: yarn lint
       - name: Run tests
         run: yarn test --coverage
-      - name: Upload coverage
-        run: codecov
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-
+      - name: Upload coverage reports to Codecov with GitHub Action
+        uses: codecov/codecov-action@v4.2.0
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
