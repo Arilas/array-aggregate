@@ -67,4 +67,4 @@ tsconfig.tsbuildinfo
 
 .yarn
 data
-test-results.junit.xml
+junit.xml
