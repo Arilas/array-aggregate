@@ -1,5 +1,5 @@
-export function lt(rawRule: Date): (value: Date | string) => boolean
-export function lt(rawRule: string): (value: Date | string) => boolean
+export function lt(rawRule: Date): (value: Date | number | string) => boolean
+export function lt(rawRule: string): (value: Date | number | string) => boolean
 export function lt(rawRule: number): (value: number | string) => boolean
 
 export function lt(rawRule: string | number | Date) {

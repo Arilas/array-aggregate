@@ -1,7 +1,7 @@
-import { comparators } from './comparators'
-import { detectType } from './detectType'
-import { Ratio } from './Ratio'
-import { Types } from './Types'
+import { comparators } from './comparators.js'
+import { detectType } from './detectType.js'
+import { Ratio } from './Ratio.js'
+import { Types } from './Types.js'
 
 export type Sort<T> = {
   [key in keyof T]: Ratio

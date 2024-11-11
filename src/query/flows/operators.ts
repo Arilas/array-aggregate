@@ -1,16 +1,16 @@
-import { cond } from '../../utils/cond'
+import { cond } from '../../utils/cond.js'
 import {
   isLogical,
   isValue,
   isElement,
   isArray,
   Operands,
-} from '../utils/checks'
-import { logicalFlow, logicalFlowDev } from './logical'
-import { valueFlow, valueFlowDev } from './value'
-import { elementFlow, elementFlowDev } from './element'
-import { elemMatchFlow, elemMatchFlowDev } from './elemMatch'
-import { arrayFlow, arrayFlowDev } from './array'
+} from '../utils/checks.js'
+import { logicalFlow, logicalFlowDev } from './logical.js'
+import { valueFlow, valueFlowDev } from './value.js'
+import { elementFlow, elementFlowDev } from './element.js'
+import { elemMatchFlow, elemMatchFlowDev } from './elemMatch.js'
+import { arrayFlow, arrayFlowDev } from './array.js'
 
 export const operatorsFlowDev = cond([
   [isLogical, logicalFlowDev],

@@ -1,7 +1,7 @@
-import logical, { LogicalOperands } from '../logical'
-import operators, { ValueOperands } from '../operators'
-import element, { ElementOperands } from '../element'
-import array, { ArrayOperands } from '../array'
+import logical, { LogicalOperands } from '../logical/index.js'
+import operators, { ValueOperands } from '../operators/index.js'
+import element, { ElementOperands } from '../element/index.js'
+import array, { ArrayOperands } from '../array/index.js'
 
 export type Operands =
   | LogicalOperands

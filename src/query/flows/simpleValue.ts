@@ -1,10 +1,10 @@
-import { createMatcher } from '../createMatcher'
-import { fieldSelector } from '../fieldSelector'
-import operators from '../operators'
-import { isSimpleValue, composeKey, Operands } from '../utils/checks'
-import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher'
-import { Schema } from '../utils/Schema'
-import { buildFilter, buildFilterDev } from '../buildFilter'
+import { createMatcher } from '../createMatcher.js'
+import { fieldSelector } from '../fieldSelector.js'
+import operators from '../operators/index.js'
+import { isSimpleValue, composeKey, Operands } from '../utils/checks.js'
+import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher.js'
+import { Schema } from '../utils/Schema.js'
+import { buildFilter, buildFilterDev } from '../buildFilter.js'
 
 export const value2FlowDev = makeDevMatcher(
   (operator: Operands, rule: any, schema: Schema, key: string | undefined) => {

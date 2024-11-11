@@ -1,4 +1,4 @@
-export { makeQueryFilter } from './makeQueryFilter'
-export { buildFilter, buildFilterDev } from './query/buildFilter'
-export { buildSort, Sort } from './sort/buildSort'
-export { Query } from './query/types'
+export { makeQueryFilter } from './makeQueryFilter.js'
+export { buildFilter, buildFilterDev } from './query/buildFilter.js'
+export { buildSort, Sort } from './sort/buildSort.js'
+export { Query } from './query/types.js'

@@ -1,4 +1,4 @@
-import { inFn } from './in'
+import { inFn } from './in.js'
 
 export function nin(
   rule: (

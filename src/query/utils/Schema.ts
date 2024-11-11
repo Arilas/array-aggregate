@@ -1,5 +1,5 @@
-import { Matcher } from '../createMatcher'
-import { Operands } from './checks'
+import { Matcher } from '../createMatcher.js'
+import { Operands } from './checks.js'
 
 export type SchemaPart =
   | {

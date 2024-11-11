@@ -1,12 +1,12 @@
-import { createMatcher, createAllMatcher } from '../createMatcher'
-import { fieldSelector } from '../fieldSelector'
-import operators from '../operators'
-import array, { ArrayOperands } from '../array'
-import { composeArgs } from '../../utils/composeArgs'
-import { isSimpleValue } from '../utils/checks'
-import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher'
-import { SchemaPart, Schema, setInSchema } from '../utils/Schema'
-import { buildFilter, buildFilterDev } from '../buildFilter'
+import { createMatcher, createAllMatcher } from '../createMatcher.js'
+import { fieldSelector } from '../fieldSelector.js'
+import operators from '../operators/index.js'
+import array, { ArrayOperands } from '../array/index.js'
+import { composeArgs } from '../../utils/composeArgs.js'
+import { isSimpleValue } from '../utils/checks.js'
+import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher.js'
+import { SchemaPart, Schema, setInSchema } from '../utils/Schema.js'
+import { buildFilter, buildFilterDev } from '../buildFilter.js'
 
 export const arrayFlowDev = composeArgs(
   makeDevMatcher(

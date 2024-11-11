@@ -1,5 +1,5 @@
-export function gte(rawRule: Date): (value: Date | string) => boolean
-export function gte(rawRule: string): (value: Date | string) => boolean
+export function gte(rawRule: Date): (value: Date | number | string) => boolean
+export function gte(rawRule: string): (value: Date | number | string) => boolean
 export function gte(rawRule: number): (value: number | string) => boolean
 
 export function gte(rawRule: string | number | Date) {

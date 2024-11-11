@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { createMatcher, Matcher } from './createMatcher'
-import { fieldSelector } from './fieldSelector'
+import { createMatcher, Matcher } from './createMatcher.js'
+import { fieldSelector } from './fieldSelector.js'
 
-import { cond, T } from '../utils/cond'
-import { Query } from './types'
-import { isOperand, Operands } from './utils/checks'
-import { Schema } from './utils/Schema'
-import { value2Flow, value2FlowDev } from './flows/simpleValue'
-import { operatorsFlow, operatorsFlowDev } from './flows/operators'
+import { cond, T } from '../utils/cond.js'
+import { Query } from './types.js'
+import { isOperand, Operands } from './utils/checks.js'
+import { Schema } from './utils/Schema.js'
+import { value2Flow, value2FlowDev } from './flows/simpleValue.js'
+import { operatorsFlow, operatorsFlowDev } from './flows/operators.js'
 
 export const flowDev = cond([
   [isOperand, operatorsFlowDev],

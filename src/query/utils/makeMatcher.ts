@@ -1,5 +1,5 @@
-import { Matcher } from '../createMatcher'
-import { Schema } from './Schema'
+import { Matcher } from '../createMatcher.js'
+import { Schema } from './Schema.js'
 
 export const makeMatcher =
   (

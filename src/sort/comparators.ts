@@ -1,6 +1,6 @@
-import { detectType } from './detectType'
-import { Ratio } from './Ratio'
-import { Types } from './Types'
+import { detectType } from './detectType.js'
+import { Ratio } from './Ratio.js'
+import { Types } from './Types.js'
 
 export const comparators = {
   [Types.Null]: (

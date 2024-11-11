@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest'
-import { inFn } from './in'
+import { inFn } from './in.js'
 
 const beginFnDate = new Date('2017-01-01')
 const endDate = new Date('2017-02-01')

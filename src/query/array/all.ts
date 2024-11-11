@@ -1,4 +1,4 @@
-import { Matcher, Match } from '../createMatcher'
+import { Matcher, Match } from '../createMatcher.js'
 
 // TODO: $elemMatch support
 

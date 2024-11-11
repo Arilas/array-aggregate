@@ -1,5 +1,5 @@
-export function gt(rawRule: Date): (value: Date | string) => boolean
-export function gt(rawRule: string): (value: Date | string) => boolean
+export function gt(rawRule: Date): (value: Date | number | string) => boolean
+export function gt(rawRule: string): (value: Date | number | string) => boolean
 export function gt(rawRule: number): (value: number | string) => boolean
 
 export function gt(rawRule: string | number | Date) {
@@ -18,7 +18,7 @@ export function gt(rawRule: string | number | Date) {
     rule = parseInt(rule)
   }
   if (rule instanceof Date) {
-    return (value: string | Date) => {
+    return (value: string | number | Date) => {
       if (value instanceof Date) {
         return value.valueOf() > rule.valueOf()
       } else {

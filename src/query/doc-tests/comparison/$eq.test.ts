@@ -1,7 +1,7 @@
 import { test, beforeAll, afterAll, expect } from 'vitest'
 
 import { wrapCollection, FakeCollection } from '../../../wrapCollection'
-import { wrapMongoCollection } from '../../tests/utils/mongoCollection'
+import { wrapMongoCollection } from '../../tests/utils/mongoCollection.js'
 
 // @ts-ignore
 let collections: {

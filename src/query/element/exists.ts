@@ -1,4 +1,4 @@
-import { Match } from '../createMatcher'
+import { Match } from '../createMatcher.js'
 
 export function exists<T>(shouldExists: boolean): Match<T> {
   if (shouldExists) {

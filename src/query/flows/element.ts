@@ -1,9 +1,9 @@
-import { createMatcher } from '../createMatcher'
-import { fieldSelector } from '../fieldSelector'
-import element, { ElementOperands } from '../element'
-import { composeArgs } from '../../utils/composeArgs'
-import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher'
-import { Schema, setInSchema } from '../utils/Schema'
+import { createMatcher } from '../createMatcher.js'
+import { fieldSelector } from '../fieldSelector.js'
+import element, { ElementOperands } from '../element/index.js'
+import { composeArgs } from '../../utils/composeArgs.js'
+import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher.js'
+import { Schema, setInSchema } from '../utils/Schema.js'
 
 export const elementFlowDev = composeArgs(
   makeDevMatcher(

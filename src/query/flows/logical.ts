@@ -1,13 +1,13 @@
-import { createMatcher } from '../createMatcher'
-import { fieldSelector } from '../fieldSelector'
-import logical, { LogicalOperands } from '../logical'
-import operators from '../operators'
-import { cond, T } from '../../utils/cond'
-import { composeArgs } from '../../utils/composeArgs'
-import { ruleIsArray, ruleIsSimple } from '../utils/checks'
-import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher'
-import { buildFilter, buildFilterDev } from '../buildFilter'
-import { Schema, SchemaPart, setInSchema } from '../utils/Schema'
+import { createMatcher } from '../createMatcher.js'
+import { fieldSelector } from '../fieldSelector.js'
+import logical, { LogicalOperands } from '../logical/index.js'
+import operators from '../operators/index.js'
+import { cond, T } from '../../utils/cond.js'
+import { composeArgs } from '../../utils/composeArgs.js'
+import { ruleIsArray, ruleIsSimple } from '../utils/checks.js'
+import { makeDevMatcher, makeMatcher } from '../utils/makeMatcher.js'
+import { buildFilter, buildFilterDev } from '../buildFilter.js'
+import { Schema, SchemaPart, setInSchema } from '../utils/Schema.js'
 
 export const logicalFlowDev = cond([
   [

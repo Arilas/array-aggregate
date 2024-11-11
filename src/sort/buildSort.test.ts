@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { buildSort } from './buildSort'
+import { buildSort } from './buildSort.js'
 
 let id = 0
 

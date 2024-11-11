@@ -1,4 +1,4 @@
-import { Types } from './Types'
+import { Types } from './Types.js'
 
 // eslint-disable-next-line @typescript-eslint/unbound-method
 export const toString = Object.prototype.toString

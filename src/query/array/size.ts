@@ -1,4 +1,4 @@
-import { Match } from '../createMatcher'
+import { Match } from '../createMatcher.js'
 
 export function size<T extends { length?: number; size?: number }>(
   rule: number,

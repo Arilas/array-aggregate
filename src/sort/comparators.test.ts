@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { comparators } from './comparators'
-import { Ratio } from './Ratio'
-import { Types } from './Types'
+import { comparators } from './comparators.js'
+import { Ratio } from './Ratio.js'
+import { Types } from './Types.js'
 
 describe('comparators', () => {
   it('should compare null/undefined', () => {

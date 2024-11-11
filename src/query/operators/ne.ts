@@ -1,4 +1,4 @@
-import { eq } from './eq'
+import { eq } from './eq.js'
 
 export function ne(
   rule: (string | number | Date | (string | number | Date)[])[],

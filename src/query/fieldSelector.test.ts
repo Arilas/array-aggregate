@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest'
-import { fieldSelector } from './fieldSelector'
+import { fieldSelector } from './fieldSelector.js'
 
 const simpleState = {
   foo: 'bar',

@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import { InsertManyResult, DeleteResult, InferIdType } from 'mongodb'
-import { buildFilter, buildFilterDev } from './query/buildFilter'
-import { Query } from './query/types'
+import { buildFilter, buildFilterDev } from './query/buildFilter.js'
+import { Query } from './query/types.js'
 
 export type FakeCollection<T extends { _id?: string | number }> = {
   _get(id: T['_id']): T & { _id: T['_id'] }
